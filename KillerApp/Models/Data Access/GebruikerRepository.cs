@@ -13,6 +13,7 @@ namespace KillerApp.Models.Data_Access
         {
             _gebruikerLogic = gebruikerLogic;
         }
+
         public List<Gebruiker> ListGebruikers()
         {
             return _gebruikerLogic.ListGebruikers();
