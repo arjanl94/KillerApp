@@ -201,10 +201,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Abonnement.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Bericht.cs" />
     <Compile Include="Models\Content.cs" />
+    <Compile Include="Models\Data Access\IGebruikerServices.cs" />
+    <Compile Include="Models\Gebruiker.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Muziek.cs" />
+    <Compile Include="Models\Reactie.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
