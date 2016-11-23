@@ -201,10 +201,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Bussiness\Abonnement.cs" />
+    <Compile Include="Models\Business\Abonnement.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Bussiness\Bericht.cs" />
-    <Compile Include="Models\Bussiness\Content.cs" />
+    <Compile Include="Models\Business\Bericht.cs" />
+    <Compile Include="Models\Business\Content.cs" />
     <Compile Include="Models\Data Access\AbonnementRepository.cs" />
     <Compile Include="Models\Data Access\BerichtRepository.cs" />
     <Compile Include="Models\Data Access\ContentRepository.cs" />
@@ -220,13 +220,13 @@
     <Compile Include="Models\Data Access\MssqlGebruikerLogic.cs" />
     <Compile Include="Models\Data Access\MssqlReactieLogic.cs" />
     <Compile Include="Models\Data Access\ReactieRepository.cs" />
-    <Compile Include="Models\Bussiness\Gebruiker.cs" />
+    <Compile Include="Models\Business\Gebruiker.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Bussiness\Muziek.cs" />
-    <Compile Include="Models\Bussiness\Reactie.cs" />
-    <Compile Include="Models\Bussiness\Video.cs" />
+    <Compile Include="Models\Business\Muziek.cs" />
+    <Compile Include="Models\Business\Reactie.cs" />
+    <Compile Include="Models\Business\Video.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
