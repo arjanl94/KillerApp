@@ -37,6 +37,16 @@ namespace KillerApp.Models
             this.Abonnement = abonnement;
             Volgers = volgers;
         }
+        public Gebruiker(string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
+        {
+            this.Naam = naam;
+            this.Gebruikersnaam = gebruikersnaam;
+            this.Geslacht = geslacht;
+            this.Emailadres = email;
+            this.Wachtwoord = wachtwoord;
+            Volgers = new List<Gebruiker>();
+        }
+
         public void AddVolger(Gebruiker gebruiker)
         {
             Volgers.Add(gebruiker);
