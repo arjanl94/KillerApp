@@ -42,7 +42,7 @@ namespace KillerApp.Models.Data_Access
                                 //De kolom wordt gekozen door middel van (kolom) aan het eind.
                                 string naam = reader.GetString(2);
                                 string gebruikersnaam = reader.GetString(3);
-                                Geslacht geslacht = (Geslacht) Enum.Parse(typeof(Geslacht), reader.GetString(4));
+                                Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                                 string email = reader.GetString(5);
                                 string wachtwoord = reader.GetString(6);
 

@@ -51,5 +51,10 @@ namespace KillerApp.Models
         {
             Volgers.Add(gebruiker);
         }
+
+        public override string ToString()
+        {
+            return @"Naam: " + Naam;
+        }
     }
 }

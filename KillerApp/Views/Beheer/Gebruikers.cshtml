@@ -1,0 +1,13 @@
+﻿@model List<KillerApp.Models.Gebruiker>
+@{
+    ViewBag.Title = "Gebruikers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lijst van Gebruikers</h2>
+<ul>
+    @foreach (var gebruiker in Model)
+    {
+        <li>gebruiker.ToString()</li>
+    }
+</ul>
