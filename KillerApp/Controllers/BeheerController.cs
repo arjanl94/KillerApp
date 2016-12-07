@@ -11,6 +11,7 @@ namespace KillerApp.Controllers
     public class BeheerController : Controller
     {
         private GebruikerRepository gebruikerRepository = new GebruikerRepository(new MssqlGebruikerLogic());
+        private AbonnementRepository abonnementRepository = new AbonnementRepository(new MssqlAbonnementLogic());
         // GET: Beheer
         public ActionResult Index()
         {
@@ -21,6 +22,19 @@ namespace KillerApp.Controllers
         {
             List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
             return View(gebruikers);
+        }
+
+        public ActionResult Abonnementen()
+        {
+            List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
+            //IEnumerable<SelectListItem> selectAbonnement =
+            //    from a in abonnementen
+            //    select new SelectListItem
+            //    {
+            //        Text = a.Naam,
+            //        Value = a.ToString()
+            //    };
+            return View(abonnementen);
         }
     }
 }

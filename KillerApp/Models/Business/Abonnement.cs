@@ -14,8 +14,13 @@ namespace KillerApp.Models
         public Abonnement(string naam, double prijs, string beschrijving)
         {
             this.Naam = naam;
-            this.Prijs = prijs;
+            this.Prijs = prijs / 100;
             this.Beschrijving = beschrijving;
+        }
+
+        public override string ToString()
+        {
+            return $"{Naam} {Prijs} {Beschrijving}";
         }
     }
 }

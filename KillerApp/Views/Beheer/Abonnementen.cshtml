@@ -1,0 +1,14 @@
+﻿@model List<KillerApp.Models.Abonnement>
+@{
+    ViewBag.Title = "Abonnementen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lijst van Abonnementen</h2>
+<ul>
+    @foreach (var abonnement in Model)
+    {
+        <li>@abonnement.ToString()</li>
+    }
+</ul>
+
