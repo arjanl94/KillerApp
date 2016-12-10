@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace KillerApp.Models.Business
+namespace KillerApp.Models
 {
     public class Scheldwoord
     {

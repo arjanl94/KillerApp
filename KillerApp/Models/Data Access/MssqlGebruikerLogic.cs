@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc.Html;
+using Microsoft.Win32.SafeHandles;
 
 namespace KillerApp.Models.Data_Access
 {
@@ -40,45 +41,27 @@ namespace KillerApp.Models.Data_Access
                             {
                                 //Voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan het volgende. 
                                 //De kolom wordt gekozen door middel van (kolom) aan het eind.
-                                string naam = reader.GetString(2);
-                                string gebruikersnaam = reader.GetString(3);
-                                Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
+                                string abonnement = "null";
+                                string naam = "null";
+                                string gebruikersnaam = "null";
+
+                                if (!reader.IsDBNull(1))
+                                {
+                                    abonnement = reader.GetString(1);
+                                }
+                                if (!reader.IsDBNull(2))
+                                {
+                                    naam = reader.GetString(2);
+                                }
+                                if (!reader.IsDBNull(3))
+                                {
+                                    gebruikersnaam = reader.GetString(3);
+                                }
+                                //Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
+                                Geslacht geslacht = Geslacht.Man;
                                 string email = reader.GetString(5);
                                 string wachtwoord = reader.GetString(6);
-
-                                if (reader.GetString(0) == null)
-                                {
-                                    gebruikers.Add(new Gebruiker(naam, gebruikersnaam, geslacht, email, wachtwoord));
-                                }
-
-                                else
-                                {
-                                    using (SqlCommand cmd2 = new SqlCommand())
-                                    {
-                                        try
-                                        {
-                                            cmd2.CommandText = "SELECT * FROM Abonnement WHERE Naam = @naam";
-                                            cmd2.Connection = conn;
-
-                                            cmd2.Parameters.AddWithValue("@naam", reader.GetString(0));
-
-                                            using (SqlDataReader reader2 = cmd2.ExecuteReader())
-                                            {
-                                                reader2.Read();
-
-                                                double prijs = reader2.GetDouble(1);
-                                                string beschrijving = reader2.GetString(2);
-
-                                                Abonnement abonnement = new Abonnement(reader.GetString(0), prijs, beschrijving);
-                                                gebruikers.Add(new Gebruiker(naam, gebruikersnaam, geslacht, email, wachtwoord, abonnement));
-                                            }
-                                        }
-                                        catch (Exception)
-                                        {
-                                            throw;
-                                        }
-                                    }
-                                }
+                                gebruikers.Add(new Gebruiker(abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord));
                             }
                             //Retourneert de lijst met gebruikers
                             return gebruikers;

@@ -27,14 +27,19 @@ namespace KillerApp.Controllers
         public ActionResult Abonnementen()
         {
             List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
-            //IEnumerable<SelectListItem> selectAbonnement =
-            //    from a in abonnementen
-            //    select new SelectListItem
-            //    {
-            //        Text = a.Naam,
-            //        Value = a.ToString()
-            //    };
             return View(abonnementen);
+        }
+
+        public ActionResult EditAbonnement(string naam)
+        {
+            List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
+            Abonnement abon = abonnementen.Find(abonnement => abonnement.Naam == naam);
+            return View(abon);
+        }
+
+        public ActionResult Details()
+        {
+            return View();
         }
     }
 }

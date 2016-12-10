@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using KillerApp.Models.Data_Access;
 
 namespace KillerApp.Models
 {
@@ -16,17 +17,6 @@ namespace KillerApp.Models
         public List<Gebruiker> Volgers { get; set; }
 
         public Gebruiker(string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord,
-            Abonnement abonnement)
-        {
-            this.Naam = naam;
-            this.Gebruikersnaam = gebruikersnaam;
-            this.Geslacht = geslacht;
-            this.Emailadres = email;
-            this.Wachtwoord = wachtwoord;
-            this.Abonnement = abonnement;
-            Volgers = new List<Gebruiker>();
-        }
-        public Gebruiker(string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord,
     Abonnement abonnement, List<Gebruiker> volgers)
         {
             this.Naam = naam;
@@ -37,8 +27,18 @@ namespace KillerApp.Models
             this.Abonnement = abonnement;
             Volgers = volgers;
         }
-        public Gebruiker(string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
+        public Gebruiker(string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
         {
+            if (abonnement != "null")
+            {
+                AbonnementRepository listAbonnementRepository = new AbonnementRepository(new MssqlAbonnementLogic());
+                List<Abonnement> abonnementen = listAbonnementRepository.ListAbonnementen();
+                this.Abonnement = abonnementen.Single(Abonnement => Abonnement.Naam == abonnement);
+            }
+            else
+            {
+                this.Abonnement = new Abonnement("leeg", 3.33, "Test test");
+            }
             this.Naam = naam;
             this.Gebruikersnaam = gebruikersnaam;
             this.Geslacht = geslacht;

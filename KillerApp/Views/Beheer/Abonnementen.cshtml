@@ -5,10 +5,40 @@
 }
 
 <h2>Lijst van Abonnementen</h2>
-<ul>
-    @foreach (var abonnement in Model)
+<table class="table">
+    
+    <tr>
+        
+        <th></th>
+
+        <th>
+            Naam
+        </th>
+        <th>
+            Prijs
+        </th>
+        <th>
+            Beschrijving
+        </th>
+    </tr>
+    
+    @foreach (var item in Model)
     {
-        <li>@abonnement.ToString()</li>
+        <tr>
+            <td>
+                @Html.ActionLink("Wijzig", "EditAbonnement", new {Naam = item.Naam}) |
+                @Html.ActionLink("Details", "Details", new {Naam = item.Naam})
+            </td>
+            <td>
+                @Html.Encode(item.Naam)
+            </td>
+            <td>
+                @Html.Encode(item.Beschrijving)
+            </td>
+            <td>
+                @Html.Encode(item.Beschrijving)
+            </td>
+        </tr>
     }
-</ul>
+</table>
 
