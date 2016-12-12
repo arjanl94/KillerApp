@@ -11,3 +11,55 @@
         <li>@gebruiker.ToString()</li>
     }
 </ul>
+
+<table class="table">
+    <tr>
+        <th></th>
+        
+        <th>
+            Naam
+        </th>
+        <th>
+            Gebruikersnaam
+        </th>
+        <th>
+            Geslacht
+        </th>
+        <th>
+            Emailadres
+        </th>
+        <th>
+            Wachtwoord
+        </th>
+        <th>
+            Abonnement
+        </th>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Wijzig", "WijzigAbonnement", new {Email = item.Emailadres})
+            </td>
+            <td>
+                @Html.Encode(item.Naam)
+            </td>
+            <td>
+                @Html.Encode(item.Gebruikersnaam)
+            </td>
+            <td>
+                @Html.Encode(item.Geslacht)
+            </td>
+            <td>
+                @Html.Encode(item.Emailadres)
+            </td>
+            <td>
+                @Html.Encode(item.Wachtwoord)
+            </td>
+            <td>
+                @Html.Encode(item.Abonnement.Naam)
+            </td>
+        </tr>
+    }
+</table>

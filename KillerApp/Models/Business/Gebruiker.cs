@@ -37,7 +37,7 @@ namespace KillerApp.Models
             }
             else
             {
-                this.Abonnement = new Abonnement("leeg", 3.33, "Test test");
+                //this.Abonnement = new Abonnement("leeg", 3.33, "Test test");
             }
             this.Naam = naam;
             this.Gebruikersnaam = gebruikersnaam;
