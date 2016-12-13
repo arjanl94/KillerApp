@@ -5,12 +5,6 @@
 }
 
 <h2>Lijst van Gebruikers</h2>
-<ul>
-    @foreach (var gebruiker in Model)
-    {
-        <li>@gebruiker.ToString()</li>
-    }
-</ul>
 
 <table class="table">
     <tr>
@@ -40,7 +34,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Wijzig", "WijzigAbonnement", new {Email = item.Emailadres})
+                @Html.ActionLink("Wijzig", "WijzigGebruiker", new {Email = item.Emailadres})
             </td>
             <td>
                 @Html.Encode(item.Naam)

@@ -8,6 +8,7 @@ namespace KillerApp.Models
 {
     public class Gebruiker
     {
+        public int Gebruikernr { get; set; }
         public string Naam { get; set; }
         public string Gebruikersnaam { get; set; }
         public Geslacht Geslacht { get; set; }
@@ -27,8 +28,9 @@ namespace KillerApp.Models
             this.Abonnement = abonnement;
             Volgers = volgers;
         }
-        public Gebruiker(string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
+        public Gebruiker(int gebruikernr, string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
         {
+            this.Gebruikernr = gebruikernr;
             if (abonnement != "null")
             {
                 AbonnementRepository listAbonnementRepository = new AbonnementRepository(new MssqlAbonnementLogic());
@@ -37,7 +39,7 @@ namespace KillerApp.Models
             }
             else
             {
-                //this.Abonnement = new Abonnement("leeg", 3.33, "Test test");
+                this.Abonnement = new Abonnement("Geen", 0, "Geen abonnement");
             }
             this.Naam = naam;
             this.Gebruikersnaam = gebruikersnaam;

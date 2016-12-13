@@ -14,7 +14,7 @@ namespace KillerApp.Models
         public Abonnement(string naam, double prijs, string beschrijving)
         {
             this.Naam = naam;
-            this.Prijs = prijs / 100;
+            this.Prijs = prijs;
             this.Beschrijving = beschrijving;
         }
 

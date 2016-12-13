@@ -43,5 +43,10 @@ namespace KillerApp.Models.Data_Access
         {
             _contentLogic.RemoveMuziek(muziek);
         }
+
+        public Gebruiker SelectUploader(int gebruikernr)
+        {
+            return _contentLogic.SelectUploader(gebruikernr);
+        }
     }
 }

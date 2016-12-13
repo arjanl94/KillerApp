@@ -30,11 +30,18 @@ namespace KillerApp.Controllers
             return View(abonnementen);
         }
 
-        public ActionResult EditAbonnement(string naam)
+        public ActionResult WijzigAbonnement(string naam)
         {
             List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
             Abonnement abon = abonnementen.Find(abonnement => abonnement.Naam == naam);
             return View(abon);
+        }
+
+        public ActionResult WijzigGebruiker(string email)
+        {
+            List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
+            Gebruiker user = gebruikers.Find(gebruiker => gebruiker.Emailadres == email);
+            return View(user);
         }
 
         public ActionResult Details()

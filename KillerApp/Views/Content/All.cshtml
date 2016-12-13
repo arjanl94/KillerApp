@@ -1,0 +1,51 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@model List<KillerApp.Models.Content>
+@{
+    ViewBag.Title = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Alle content</h2>
+<table class="table">
+    <tr>
+        <th>
+            Naam
+        </th>
+        <th>
+            Genre
+        </th>
+        <th>
+            Duur
+        </th>
+        <th>
+            Uploader
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Encode(item.Naam)
+            </td>
+            <td>
+                @Html.Encode(item.Genre)
+            </td>
+            <td>
+                @Html.Encode(item.Duur)
+            </td>
+            <td>
+                @if (item.Uploader.Naam == "null")
+                {
+                    @Html.Encode(item.Uploader.Gebruikersnaam)
+                }
+                else
+                {
+                    @Html.Encode(item.Uploader.Naam)
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+

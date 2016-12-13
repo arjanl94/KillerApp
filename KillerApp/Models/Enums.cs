@@ -21,8 +21,8 @@ namespace KillerApp.Models
     public enum Resolutie
     {
         LowResolution,
-        POne = 480,
-        PTwo = 720,
-        PThree = 1080
+        _480P,
+        _720P,
+        _1080P
     }
 }

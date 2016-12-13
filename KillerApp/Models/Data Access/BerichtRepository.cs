@@ -14,14 +14,19 @@ namespace KillerApp.Models.Data_Access
             _berichtLogic = berichtLogic;
         }
 
-        public List<Bericht> Berichten()
+        public List<Bericht> Berichten(Gebruiker gebruiker)
         {
-            return _berichtLogic.Berichten();
+            return _berichtLogic.Berichten(gebruiker);
         }
 
         public void SendBericht(Bericht bericht)
         {
             _berichtLogic.SendBericht(bericht);
+        }
+
+        public Gebruiker SelectGebruiker(int gebruikernr)
+        {
+            return _berichtLogic.SelectGebruiker(gebruikernr);
         }
     }
 }

@@ -13,8 +13,11 @@ namespace KillerApp.Models.Data_Access
     public class MssqlGebruikerLogic : IGebruikerServices
     {
         //Connectiestring met database
+        //private const string Connectie =
+        //    "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
+
         private const string Connectie =
-            "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
+            "Server=MSI;Database=KillerApp;Trusted_Connection=Yes;";
 
         //Haalt een lijst met alle gebruikers op
         public List<Gebruiker> ListGebruikers()
@@ -41,6 +44,7 @@ namespace KillerApp.Models.Data_Access
                             {
                                 //Voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan het volgende. 
                                 //De kolom wordt gekozen door middel van (kolom) aan het eind.
+                                int gebrnr = reader.GetInt32(0);
                                 string abonnement = "null";
                                 string naam = "null";
                                 string gebruikersnaam = "null";
@@ -61,7 +65,7 @@ namespace KillerApp.Models.Data_Access
                                 Geslacht geslacht = Geslacht.Man;
                                 string email = reader.GetString(5);
                                 string wachtwoord = reader.GetString(6);
-                                gebruikers.Add(new Gebruiker(abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord));
+                                gebruikers.Add(new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord));
                             }
                             //Retourneert de lijst met gebruikers
                             return gebruikers;

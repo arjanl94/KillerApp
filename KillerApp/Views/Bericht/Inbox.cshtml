@@ -1,0 +1,29 @@
+﻿@model List<KillerApp.Models.Bericht>
+@{
+    ViewBag.Title = "Inbox";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inbox</h2>
+<table class="table">
+    <tr>
+        <th>
+            Verzender
+        </th>
+        <th>
+            Titel
+        </th>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Encode(item.Verzender.Naam)
+            </td>
+            <td>
+                @Html.Encode(item.Titel)
+            </td>
+        </tr>
+    }
+</table>
