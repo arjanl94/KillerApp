@@ -24,11 +24,26 @@ namespace KillerApp.Controllers
             List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
             return View(gebruikers);
         }
+
+        [HttpGet]
         public ActionResult WijzigGebruiker(string email)
         {
             List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
             Gebruiker user = gebruikers.Find(gebruiker => gebruiker.Emailadres == email);
             return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult WijzigGebruiker(FormCollection form, string email)
+        {
+            string abonnement = form["Abonnement"];
+            string naam = form["Naam"];
+            string gebruikersnaam = form["Gebruikersnaam"];
+            Geslacht geslacht = (Geslacht) Enum.Parse(typeof(Geslacht),form["Geslacht"]);
+            string wachtwoord = form["Wachtwoord"];
+            Gebruiker gebruiker = new Gebruiker(abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
+            gebruikerRepository.EditGebruiker(gebruiker);
+            return RedirectToAction("Gebruikers");
         }
 
         public ActionResult Abonnementen()
