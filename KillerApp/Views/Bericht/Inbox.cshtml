@@ -7,11 +7,12 @@
 <h2>Inbox</h2>
 <table class="table">
     <tr>
-        <th>
-            Verzender
-        </th>
+        <th></th>
         <th>
             Titel
+        </th>
+        <th>
+            Verzender
         </th>
     </tr>
     
@@ -19,10 +20,21 @@
     {
         <tr>
             <td>
-                @Html.Encode(item.Verzender.Naam)
+                @Html.ActionLink("Bekijk", "Details", new {berichtnr = item.Berichtnr}) |
+                @Html.ActionLink("Verwijder", "VerwijderBericht", new {berichtnr = item.Berichtnr}, new {onclick = "return confirm('Weet je zeker dat je dit bericht wilt verwijderen?');"})
             </td>
             <td>
                 @Html.Encode(item.Titel)
+            </td>
+            <td>
+                @if (item.Verzender.Naam == "null")
+                {
+                    @Html.Encode(item.Verzender.Gebruikersnaam)
+                }
+                else
+                {
+                    @Html.Encode(item.Verzender.Naam)
+                }
             </td>
         </tr>
     }

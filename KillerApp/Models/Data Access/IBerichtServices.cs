@@ -10,5 +10,6 @@ namespace KillerApp.Models.Data_Access
         List<Bericht> Berichten(Gebruiker gebruiker);
         void SendBericht(Bericht bericht);
         Gebruiker SelectGebruiker(int gebruikernr);
+        void RemoveBericht(int berichtnr);
     }
 }

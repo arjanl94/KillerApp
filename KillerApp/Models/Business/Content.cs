@@ -8,6 +8,7 @@ namespace KillerApp.Models
 {
     public abstract class Content
     {
+        public int Nr { get; set; }
         public string Naam { get; set; }
         public string Beschrijving { get; set; }
         public TimeSpan Duur { get; set; }
@@ -15,8 +16,9 @@ namespace KillerApp.Models
         public Gebruiker Uploader { get; set; }
         public List<Reactie> Reacties { get; set; }
 
-        public Content(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader)
+        public Content(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader)
         {
+            Nr = nr;
             Naam = naam;
             Beschrijving = beschrijving;
             Duur = duur;

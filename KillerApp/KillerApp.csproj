@@ -299,11 +299,15 @@
     <Content Include="Views\Beheer\Gebruikers.cshtml" />
     <Content Include="Views\Beheer\Abonnementen.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Beheer\WijzigAbonnement.cshtml" />
     <Content Include="Views\Beheer\WijzigGebruiker.cshtml" />
     <Content Include="Views\Content\All.cshtml" />
     <Content Include="Views\Bericht\Inbox.cshtml" />
     <Content Include="Views\Bericht\Details.cshtml" />
+    <Content Include="Views\Content\Videos.cshtml" />
+    <Content Include="Views\Beheer\AddAbonnement.cshtml" />
+    <Content Include="Views\Beheer\WijzigAbonnement.cshtml" />
+    <Content Include="Views\Beheer\Scheldwoorden.cshtml" />
+    <Content Include="Views\Beheer\AddScheldwoord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

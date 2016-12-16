@@ -4,8 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lijst van Gebruikers</h2>
+<div class="nav nav-tabs" role="tablist">
+    <li><a href="@Url.Action("Abonnementen", "Beheer")"><span>Abonnementen</span></a></li>
+    <li class="active"><a href="#">Gebruikers</a></li>
+    <li><a href="@Url.Action("Scheldwoorden", "Beheer")"><span>Scheldwoorden</span></a></li>
+</div>
 
+<h2>Lijst van Gebruikers</h2>
 <table class="table">
     <tr>
         <th></th>

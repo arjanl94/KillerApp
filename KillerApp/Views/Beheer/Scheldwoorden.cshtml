@@ -1,0 +1,37 @@
+﻿@model List<KillerApp.Models.Scheldwoord>
+@{
+    ViewBag.Title = "Scheldwoorden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nav nav-tabs" role="tablist">
+    <li><a href="@Url.Action("Abonnementen", "Beheer")"><span>Abonnementen</span></a></li>
+    <li><a href="@Url.Action("Gebruikers", "Beheer")"><span>Gebruikers</span></a></li>
+    <li class="active"><a href="#">Scheldwoorden</a></li>
+</div>
+
+<h2>Lijst van scheldwoorden</h2>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            Woord
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Verwijder", "VerwijderScheldwoord", new { Woord = item.Woord }, new { onclick = "return confirm('Weet je zeker dat je dit scheldwoord wilt verwijderen?');" })
+            </td>
+            <td>
+                @Html.Encode(item.Woord)
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Voeg scheldwoord toe", "AddScheldwoord")
+</div>
+

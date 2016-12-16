@@ -8,14 +8,30 @@ namespace KillerApp.Models
     public class Video : Content
     {
         public Resolutie Resolutie { get; set; }
-        public Video(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, string resolutie) : base(naam, beschrijving, duur, genre, uploader)
+        public Video(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, string resolutie) : base(nr, naam, beschrijving, duur, genre, uploader)
         {
+            this.Nr = nr;
             this.Naam = naam;
             this.Beschrijving = beschrijving;
             this.Duur = duur;
             this.Genre = genre;
             this.Uploader = uploader;
-            this.Resolutie = Resolutie.LowResolution;
+            if (resolutie =="1080P")
+            {
+                this.Resolutie = Resolutie._1080P;
+            }
+            if (resolutie == "720P")
+            {
+                this.Resolutie = Resolutie._720P;
+            }
+            if (resolutie == "480P")
+            {
+                this.Resolutie = Resolutie._480P;
+            }
+            if (resolutie == "Low Resolution")
+            {
+                this.Resolutie = Resolutie.LowResolution;
+            }
         }
     }
 }

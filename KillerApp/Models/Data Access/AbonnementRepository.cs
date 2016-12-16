@@ -24,9 +24,9 @@ namespace KillerApp.Models.Data_Access
             _abonnementLogic.AddAbonnement(abonnement);
         }
 
-        public void RemoveAbonnement(Abonnement abonnement)
+        public void RemoveAbonnement(string naam)
         {
-            _abonnementLogic.RemoveAbonnement(abonnement);
+            _abonnementLogic.RemoveAbonnement(naam);
         }
 
         public void EditAbonnement(Abonnement abonnement)

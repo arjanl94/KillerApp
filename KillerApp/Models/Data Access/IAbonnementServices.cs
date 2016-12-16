@@ -9,7 +9,7 @@ namespace KillerApp.Models.Data_Access
     {
         List<Abonnement> ListAbonnementen();
         void AddAbonnement(Abonnement abonnement);
-        void RemoveAbonnement(Abonnement abonnement);
+        void RemoveAbonnement(string naam);
         void EditAbonnement(Abonnement abonnement);
     }
 }

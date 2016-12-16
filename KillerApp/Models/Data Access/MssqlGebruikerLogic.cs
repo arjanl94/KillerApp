@@ -61,8 +61,7 @@ namespace KillerApp.Models.Data_Access
                                 {
                                     gebruikersnaam = reader.GetString(3);
                                 }
-                                //Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
-                                Geslacht geslacht = Geslacht.Man;
+                                Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                                 string email = reader.GetString(5);
                                 string wachtwoord = reader.GetString(6);
                                 gebruikers.Add(new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord));
@@ -70,9 +69,9 @@ namespace KillerApp.Models.Data_Access
                             //Retourneert de lijst met gebruikers
                             return gebruikers;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {
@@ -109,9 +108,9 @@ namespace KillerApp.Models.Data_Access
 
                             cmd.ExecuteNonQuery();
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {

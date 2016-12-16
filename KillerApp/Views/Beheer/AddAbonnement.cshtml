@@ -1,13 +1,13 @@
 ﻿@model KillerApp.Models.Abonnement
 
 @{
-    ViewBag.Title = "WijzigAbonnement";
+    ViewBag.Title = "AddAbonnement";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Wijzig Abonnement</h2>
+<h2>Abonnement toevoegen</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.Naam, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Naam, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Naam, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,12 +40,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Opslaan" class="btn btn-default" />
+                <input type="submit" value="Creëer" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Terug naar abonnementen", "Abonnementen")
+    @Html.ActionLink("Back to List", "Abonnementen")
 </div>

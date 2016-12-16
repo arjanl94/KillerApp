@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class ="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#">Abonnementen</a></li>
+    <li><a href="@Url.Action("Gebruikers", "Beheer")"><span>Gebruikers</span></a></li>
+    <li><a href="@Url.Action("Scheldwoorden", "Beheer")"><span>Scheldwoorden</span></a></li>
+</div>
+
 <h2>Lijst van Abonnementen</h2>
 <table class="table">
     
@@ -26,13 +32,14 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Wijzig", "WijzigAbonnement", new {Naam = item.Naam})
+                @Html.ActionLink("Wijzig", "WijzigAbonnement", new {Naam = item.Naam}) | 
+                @Html.ActionLink("Verwijder", "VerwijderAbonnement", new { Naam = item.Naam }, new { onclick = "return confirm('Weet je zeker dat je dit abonnement wilt verwijderen?');" })
             </td>
             <td>
                 @Html.Encode(item.Naam)
             </td>
             <td>
-                @Html.Encode(item.Beschrijving)
+                @Html.Encode(item.Prijs)
             </td>
             <td>
                 @Html.Encode(item.Beschrijving)
@@ -40,4 +47,6 @@
         </tr>
     }
 </table>
-
+<div>
+    @Html.ActionLink("Voeg abonnement toe", "AddAbonnement")
+</div>

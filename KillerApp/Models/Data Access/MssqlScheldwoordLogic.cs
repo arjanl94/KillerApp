@@ -10,8 +10,11 @@ namespace KillerApp.Models.Data_Access
     public class MssqlScheldwoordLogic : IScheldwoordServices
     {
         //Connectiestring met database
+        //private const string Connectie =
+        //    "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
+
         private const string Connectie =
-            "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
+            "Server=MSI;Database=KillerApp;Trusted_Connection=Yes;";
 
         // Haalt een lijst met alle scheldwoorden op
         public List<Scheldwoord> ListScheldwoorden()
@@ -40,10 +43,10 @@ namespace KillerApp.Models.Data_Access
                             }
                             return scheldwoorden;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
 
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {
@@ -57,12 +60,66 @@ namespace KillerApp.Models.Data_Access
 
         public void AddScheldwoord(Scheldwoord scheldwoord)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "INSERT INTO Scheldwoord (Woord) VALUES (@woord)";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@woord", scheldwoord.Woord);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
-        public void RemoveScheldwoord(Scheldwoord scheldwoord)
+        public void RemoveScheldwoord(string scheldwoord)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "DELETE FROM Scheldwoord WHERE Woord = @woord";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@woord", scheldwoord);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -21,5 +21,12 @@ namespace KillerApp.Models
             this.Titel = titel;
             this.Tekst = tekst;
         }
+        public Bericht(Gebruiker verzender, Gebruiker ontvanger, string titel, string tekst)
+        {
+            this.Verzender = verzender;
+            this.Ontvanger = ontvanger;
+            this.Titel = titel;
+            this.Tekst = tekst;
+        }
     }
 }

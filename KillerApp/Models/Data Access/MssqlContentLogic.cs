@@ -31,14 +31,15 @@ namespace KillerApp.Models.Data_Access
                     {
                         try
                         {
-                            cmd.CommandText = "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, " +
-                                              "m.Naam, m.Beschrijving, m.Duur, m.kHz FROM content c left join video v ON c.Videonr = v.Videonr left join muziek m ON c.Muzieknr = m.Muzieknr";
+                            cmd.CommandText =
+                                "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, " +
+                                "m.Naam, m.Beschrijving, m.Duur, m.kHz, c.Videonr, c.Muzieknr FROM content c left join video v ON c.Videonr = v.Videonr left join muziek m ON c.Muzieknr = m.Muzieknr";
                             cmd.Connection = conn;
 
                             SqlDataReader reader = cmd.ExecuteReader();
                             while (reader.Read())
                             {
-                                Genre genre = (Genre)Enum.Parse(typeof(Genre), reader.GetString(0));
+                                Genre genre = (Genre) Enum.Parse(typeof(Genre), reader.GetString(0));
                                 int uploadernr = reader.GetInt32(1);
                                 Gebruiker uploader = SelectUploader(uploadernr);
                                 if (!reader.IsDBNull(2))
@@ -51,7 +52,8 @@ namespace KillerApp.Models.Data_Access
                                     }
                                     TimeSpan duur = reader.GetTimeSpan(8);
                                     string resolutie = reader.GetString(9);
-                                    Content.Add(new Video(naam, beschrijving, duur, genre, uploader, resolutie));
+                                    int nr = reader.GetInt32(14);
+                                    Content.Add(new Video(nr, naam, beschrijving, duur, genre, uploader, resolutie));
                                 }
                                 else if (!reader.IsDBNull(3))
                                 {
@@ -60,10 +62,9 @@ namespace KillerApp.Models.Data_Access
                             }
                             return Content;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {
@@ -80,12 +81,38 @@ namespace KillerApp.Models.Data_Access
             throw new NotImplementedException();
         }
 
-        public void AddVideo(Video video)
+        public void AddVideo(Video video, Gebruiker gebruiker)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "EXECUTE VideoContent @naam, @duur, @resolutie, @uploader, @beschrijving";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@naam", video.Naam);
+                            cmd.Parameters.AddWithValue("@beschrijving", video.Beschrijving);
+                            cmd.Parameters.AddWithValue("@duur", video.Duur);
+                            cmd.Parameters.AddWithValue("@resolutie", video.Resolutie);
+                            cmd.Parameters.AddWithValue("@uploader", gebruiker.Gebruikernr);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                    }
+                }
+            }
         }
 
-        public void AddMuziek(Muziek muziek)
+        public void AddMuziek(Muziek muziek, Gebruiker gebruiker)
         {
             throw new NotImplementedException();
         }
@@ -135,15 +162,14 @@ namespace KillerApp.Models.Data_Access
                             {
                                 gebruikersnaam = reader.GetString(3);
                             }
-                            //Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
-                            Geslacht geslacht = Geslacht.Man;
+                            Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                             string email = reader.GetString(5);
                             string wachtwoord = reader.GetString(6);
                             return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {

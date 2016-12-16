@@ -24,14 +24,14 @@ namespace KillerApp.Models.Data_Access
             return _contentLogic.ListGebruikerContent(gebruiker);
         }
 
-        public void AddVideo(Video video)
+        public void AddVideo(Video video, Gebruiker uploader)
         {
-            _contentLogic.AddVideo(video);
+            _contentLogic.AddVideo(video, uploader);
         }
 
-        public void AddMuziek(Muziek muziek)
+        public void AddMuziek(Muziek muziek, Gebruiker uploader)
         {
-            _contentLogic.AddMuziek(muziek);
+            _contentLogic.AddMuziek(muziek, uploader);
         }
 
         public void RemoveVideo(Video video)

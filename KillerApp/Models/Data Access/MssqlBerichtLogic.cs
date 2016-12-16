@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace KillerApp.Models.Data_Access
 {
@@ -48,9 +46,13 @@ namespace KillerApp.Models.Data_Access
                             }
                             return berichten;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
                         }
                     }
                 }
@@ -60,7 +62,37 @@ namespace KillerApp.Models.Data_Access
 
         public void SendBericht(Bericht bericht)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "INSERT INTO Bericht (Verzender, Ontvanger, Titel, Tekst) VALUES (@verzender, @ontvanger, @titel, @tekst)";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@verzender", bericht.Verzender);
+                            cmd.Parameters.AddWithValue("@ontvanger", bericht.Ontvanger);
+                            cmd.Parameters.AddWithValue("@titel", bericht.Titel);
+                            cmd.Parameters.AddWithValue("@tekst", bericht.Tekst);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
         public Gebruiker SelectGebruiker(int gebruikernr)
@@ -104,9 +136,9 @@ namespace KillerApp.Models.Data_Access
                             string wachtwoord = reader.GetString(6);
                             return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {
@@ -116,6 +148,38 @@ namespace KillerApp.Models.Data_Access
                 }
             }
             return null;
+        }
+
+        public void RemoveBericht(int berichtnr)
+        {
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "DELETE FROM Bericht WHERE Berichtnr = @berichtnr";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@berichtnr", berichtnr);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
     }
 }

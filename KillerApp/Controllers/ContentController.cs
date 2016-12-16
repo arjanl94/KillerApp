@@ -22,5 +22,12 @@ namespace KillerApp.Controllers
             List<Content> content = contentRepository.ListContent();
             return View(content);
         }
+
+        public ActionResult Videos()
+        {
+            List<Content> content = contentRepository.ListContent();
+            List<Video> videos = content.Cast<Video>().ToList();
+            return View(videos);
+        }
     }
 }

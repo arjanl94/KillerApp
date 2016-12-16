@@ -9,8 +9,9 @@ namespace KillerApp.Models
     {
         public int kHz { get; set; }
 
-        public Muziek(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, int kHz) : base(naam, beschrijving, duur, genre, uploader)
+        public Muziek(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, int kHz) : base(nr, naam, beschrijving, duur, genre, uploader)
         {
+            this.Nr = nr;
             this.Naam = naam;
             this.Beschrijving = beschrijving;
             this.Duur = duur;

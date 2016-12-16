@@ -28,5 +28,10 @@ namespace KillerApp.Models.Data_Access
         {
             return _berichtLogic.SelectGebruiker(gebruikernr);
         }
+
+        public void RemoveBericht(int berichtnr)
+        {
+            _berichtLogic.RemoveBericht(berichtnr);
+        }
     }
 }

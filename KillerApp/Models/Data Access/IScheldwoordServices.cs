@@ -9,6 +9,6 @@ namespace KillerApp.Models.Data_Access
     {
         List<Scheldwoord> ListScheldwoorden();
         void AddScheldwoord(Scheldwoord scheldwoord);
-        void RemoveScheldwoord(Scheldwoord scheldwoord);
+        void RemoveScheldwoord(string scheldwoord);
     }
 }

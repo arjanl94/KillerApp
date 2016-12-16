@@ -24,7 +24,7 @@ namespace KillerApp.Models.Data_Access
             _scheldwoordLogic.AddScheldwoord(scheldwoord);
         }
 
-        public void RemoveScheldwoord(Scheldwoord scheldwoord)
+        public void RemoveScheldwoord(string scheldwoord)
         {
             _scheldwoordLogic.RemoveScheldwoord(scheldwoord);
         }

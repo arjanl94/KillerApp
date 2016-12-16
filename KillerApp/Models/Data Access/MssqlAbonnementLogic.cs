@@ -45,10 +45,10 @@ namespace KillerApp.Models.Data_Access
                             // retourneer de lisjt met abonnementen
                             return abonnementen;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
 
-                            throw;
+                            throw new Exception(ex.Message);
                         }
                         finally
                         {
@@ -64,17 +64,105 @@ namespace KillerApp.Models.Data_Access
 
         public void AddAbonnement(Abonnement abonnement)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "INSERT INTO Abonnement (Naam, Prijs, Beschrijving) VALUES (@naam, @prijs, @beschrijving)";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@naam", abonnement.Naam);
+                            cmd.Parameters.AddWithValue("@prijs", abonnement.Prijs);
+                            cmd.Parameters.AddWithValue("@beschrijving", abonnement.Beschrijving);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
-        public void RemoveAbonnement(Abonnement abonnement)
+        public void RemoveAbonnement(string naam)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "DELETE FROM Abonnement WHERE Naam = @naam";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@naam", naam);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
         public void EditAbonnement(Abonnement abonnement)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "UPDATE Abonnement SET Prijs = @prijs, Beschrijving = @beschrijving WHERE Naam = @naam";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@naam", abonnement.Naam);
+                            cmd.Parameters.AddWithValue("@prijs", abonnement.Prijs);
+                            cmd.Parameters.AddWithValue("@beschrijving", abonnement.Beschrijving);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
     }
 }
