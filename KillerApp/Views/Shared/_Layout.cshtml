@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using KillerApp.Models
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,6 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
+@{ Gebruiker gebruiker = (Gebruiker) HttpContext.Current.Session["Gebruiker"];}
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -24,7 +26,13 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Content", "All", "Content")</li>
                     <li>@Html.ActionLink("Inbox", "Inbox", "Bericht")</li>
-                    <li>@Html.ActionLink("Beheer", "Abonnementen", "Beheer")</li>
+                    @if (Session["Gebruiker"] != null)
+                    {
+                        if (gebruiker.Admin == true)
+                        {
+                            <li>@Html.ActionLink("Beheer", "Abonnementen", "Beheer")</li>
+                        }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

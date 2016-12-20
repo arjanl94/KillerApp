@@ -34,9 +34,9 @@ namespace KillerApp.Models.Data_Access
             _gebruikerLogic.EditGebruiker(gebruiker);
         }
 
-        public Gebruiker CheckForGebruiker(Gebruiker gebruiker)
+        public Gebruiker LoginGebruiker(string email, string wachtwoord)
         {
-            return _gebruikerLogic.CheckForGebruiker(gebruiker);
+            return _gebruikerLogic.LoginGebruiker(email, wachtwoord);
         }
     }
 }

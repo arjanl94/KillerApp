@@ -16,6 +16,7 @@ namespace KillerApp.Models
         public string Wachtwoord { get; set; }
         public Abonnement Abonnement { get; set; }
         public List<Gebruiker> Volgers { get; set; }
+        public bool Admin { get; set; }
 
         public Gebruiker(int gebruikernr, string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
         {
@@ -36,6 +37,11 @@ namespace KillerApp.Models
             this.Emailadres = email;
             this.Wachtwoord = wachtwoord;
             Volgers = new List<Gebruiker>();
+            Admin = false;
+            if (naam == "Admin")
+            {
+                Admin = true;
+            }
         }
         public Gebruiker(string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
         {
@@ -55,6 +61,11 @@ namespace KillerApp.Models
             this.Emailadres = email;
             this.Wachtwoord = wachtwoord;
             Volgers = new List<Gebruiker>();
+            Admin = false;
+            if (naam == "Admin")
+            {
+                Admin = true;
+            }
         }
 
         public void AddVolger(Gebruiker gebruiker)

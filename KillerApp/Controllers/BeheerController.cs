@@ -14,15 +14,23 @@ namespace KillerApp.Controllers
         private AbonnementRepository abonnementRepository = new AbonnementRepository(new MssqlAbonnementLogic());
         private ScheldwoordRepository scheldwoordRepository = new ScheldwoordRepository(new MssqlScheldwoordLogic());
         // GET: Beheer
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        
         public ActionResult Gebruikers()
         {
             List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
             return View(gebruikers);
+        }
+
+        [HttpGet]
+        public ActionResult AddGebruiker()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddGebruiker(FormCollection form)
+        {
+            return View();
         }
 
         [HttpGet]
@@ -45,7 +53,7 @@ namespace KillerApp.Controllers
             gebruikerRepository.EditGebruiker(gebruiker);
             return RedirectToAction("Gebruikers");
         }
-
+        
         public ActionResult Abonnementen()
         {
             List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();

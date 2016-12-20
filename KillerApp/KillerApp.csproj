@@ -202,6 +202,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -308,6 +309,8 @@
     <Content Include="Views\Beheer\Scheldwoorden.cshtml" />
     <Content Include="Views\Beheer\AddScheldwoord.cshtml" />
     <Content Include="Views\Beheer\WijzigGebruiker.cshtml" />
+    <Content Include="Views\Beheer\AddGebruiker.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
