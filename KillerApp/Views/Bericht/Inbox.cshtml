@@ -5,6 +5,10 @@
 }
 
 <h2>Inbox</h2>
+<div class="col-md-offset-0 col-md-10">
+    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("NieuwBericht", "Bericht")'">Nieuw bericht</button>
+</div>
+<br><br>
 <table class="table">
     <tr>
         <th></th>
@@ -15,13 +19,13 @@
             Verzender
         </th>
     </tr>
-    
+
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.ActionLink("Bekijk", "Details", new {berichtnr = item.Berichtnr}) |
-                @Html.ActionLink("Verwijder", "VerwijderBericht", new {berichtnr = item.Berichtnr}, new {onclick = "return confirm('Weet je zeker dat je dit bericht wilt verwijderen?');"})
+                @Html.ActionLink("Bekijk", "Details", new { berichtnr = item.Berichtnr }) |
+                @Html.ActionLink("Verwijder", "VerwijderBericht", new { berichtnr = item.Berichtnr }, new { onclick = "return confirm('Weet je zeker dat je dit bericht wilt verwijderen?');" })
             </td>
             <td>
                 @Html.Encode(item.Titel)

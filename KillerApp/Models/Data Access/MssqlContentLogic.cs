@@ -39,7 +39,7 @@ namespace KillerApp.Models.Data_Access
                             SqlDataReader reader = cmd.ExecuteReader();
                             while (reader.Read())
                             {
-                                Genre genre = (Genre) Enum.Parse(typeof(Genre), reader.GetString(0));
+                                Genre genre = (Genre)Enum.Parse(typeof(Genre), reader.GetString(0));
                                 int uploadernr = reader.GetInt32(1);
                                 Gebruiker uploader = SelectUploader(uploadernr);
                                 if (!reader.IsDBNull(2))
@@ -78,10 +78,67 @@ namespace KillerApp.Models.Data_Access
 
         public List<Content> ListGebruikerContent(Gebruiker gebruiker)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                List<Content> Content = new List<Content>();
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, " +
+                                "m.Naam, m.Beschrijving, m.Duur, m.kHz, c.Videonr, c.Muzieknr FROM content c left join video v ON c.Videonr = v.Videonr left join muziek m ON c.Muzieknr = m.Muzieknr " +
+                                "WHERE c.uploader = @uploader";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@uploader", gebruiker.Gebruikernr);
+
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                Genre genre = (Genre)Enum.Parse(typeof(Genre), reader.GetString(0));
+                                int uploadernr = reader.GetInt32(1);
+                                Gebruiker uploader = SelectUploader(uploadernr);
+                                if (!reader.IsDBNull(2))
+                                {
+                                    string naam = reader.GetString(6);
+                                    string beschrijving = "Leeg";
+                                    if (!reader.IsDBNull(7))
+                                    {
+                                        beschrijving = reader.GetString(7);
+                                    }
+                                    TimeSpan duur = reader.GetTimeSpan(8);
+                                    string resolutie = reader.GetString(9);
+                                    int nr = reader.GetInt32(14);
+                                    Content.Add(new Video(nr, naam, beschrijving, duur, genre, uploader, resolutie));
+                                }
+                                else if (!reader.IsDBNull(3))
+                                {
+
+                                }
+                            }
+                            return Content;
+                        }
+                        catch (NullReferenceException)
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
-        public void AddVideo(Video video, Gebruiker gebruiker)
+        public void AddVideo(Video video)
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
             {
@@ -92,15 +149,31 @@ namespace KillerApp.Models.Data_Access
                     {
                         try
                         {
-                            cmd.CommandText = "EXECUTE VideoContent @naam, @duur, @resolutie, @uploader, @beschrijving";
+                            cmd.CommandText = "EXECUTE VideoContent @naam, @duur, @resolutie, @genretitel, @uploader, @beschrijving";
                             cmd.Connection = conn;
 
                             cmd.Parameters.AddWithValue("@naam", video.Naam);
                             cmd.Parameters.AddWithValue("@beschrijving", video.Beschrijving);
                             cmd.Parameters.AddWithValue("@duur", video.Duur);
-                            cmd.Parameters.AddWithValue("@resolutie", video.Resolutie);
-                            cmd.Parameters.AddWithValue("@uploader", gebruiker.Gebruikernr);
-
+                            if (video.Resolutie == Resolutie._1080P)
+                            {
+                                cmd.Parameters.AddWithValue("@resolutie", "1080P");
+                            }
+                            else if (video.Resolutie == Resolutie._720P)
+                            {
+                                cmd.Parameters.AddWithValue("@resolutie", "720P");
+                            }
+                            else if (video.Resolutie == Resolutie._480P)
+                            {
+                                cmd.Parameters.AddWithValue("@resolutie", "480P");
+                            }
+                            else if (video.Resolutie == Resolutie.LowResolution)
+                            {
+                                cmd.Parameters.AddWithValue("@resolutie", "Low Resolution");
+                            }
+                            cmd.Parameters.AddWithValue("@genretitel", video.Genre.ToString());
+                            cmd.Parameters.AddWithValue("@uploader", video.Uploader.Gebruikernr);
+                            
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -117,9 +190,31 @@ namespace KillerApp.Models.Data_Access
             throw new NotImplementedException();
         }
 
-        public void RemoveVideo(Video video)
+        public void RemoveVideo(int videonr)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "EXECUTE RemoveVideoContent @videonr";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@videonr", videonr);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                    }
+                }
+            }
         }
 
         public void RemoveMuziek(Muziek muziek)

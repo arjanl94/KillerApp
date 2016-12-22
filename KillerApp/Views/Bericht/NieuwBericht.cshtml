@@ -1,0 +1,48 @@
+﻿@using System.Activities.Statements
+@using KillerApp.Models
+@using KillerApp.Models.Data_Access
+@model KillerApp.Models.BerichtGebruikerView
+
+@{
+    ViewBag.Title = "Nieuw bericht";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Nieuw bericht</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gebruiker.Emailadres, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Emailadres", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bericht.Titel, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Titel", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Bericht.Titel, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bericht.Tekst, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextArea("Tekst", null, new { @class = "form-control", rows ="8" })
+                @Html.ValidationMessageFor(model => model.Bericht.Tekst, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Verzenden" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

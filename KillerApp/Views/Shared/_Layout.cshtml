@@ -19,15 +19,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("KillerApp", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("KillerApp", "All", "Content", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Content", "All", "Content")</li>
-                    <li>@Html.ActionLink("Inbox", "Inbox", "Bericht")</li>
                     @if (Session["Gebruiker"] != null)
                     {
+                        <li>@Html.ActionLink("Content", "UploadedContent", "Content")</li>
+                        <li>@Html.ActionLink("Inbox", "Inbox", "Bericht")</li>
                         if (gebruiker.Admin == true)
                         {
                             <li>@Html.ActionLink("Beheer", "Abonnementen", "Beheer")</li>

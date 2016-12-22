@@ -12,5 +12,6 @@ namespace KillerApp.Models.Data_Access
         void RemoveGebruiker(Gebruiker gebruiker);
         void EditGebruiker(Gebruiker gebruiker);
         Gebruiker LoginGebruiker(string email, string wachtwoord);
+        Gebruiker GebruikerByEmail(string email);
     }
 }

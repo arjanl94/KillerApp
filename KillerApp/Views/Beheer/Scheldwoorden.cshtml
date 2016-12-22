@@ -12,6 +12,10 @@
 
 <h2>Lijst van scheldwoorden</h2>
 
+<div class="col-md-offset-0 col-md-10">
+    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("AddScheldwoord", "Beheer")'">Nieuw scheldwoord</button>
+</div>
+<br><br>
 <table class="table">
     <tr>
         <th></th>
@@ -31,7 +35,4 @@
         </tr>
     }
 </table>
-<div>
-    @Html.ActionLink("Voeg scheldwoord toe", "AddScheldwoord")
-</div>
 

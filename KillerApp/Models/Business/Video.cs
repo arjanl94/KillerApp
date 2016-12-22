@@ -33,5 +33,30 @@ namespace KillerApp.Models
                 this.Resolutie = Resolutie.LowResolution;
             }
         }
+
+        public Video(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, string resolutie) : base(naam, beschrijving, duur, genre, uploader)
+        {
+            this.Naam = naam;
+            this.Beschrijving = beschrijving;
+            this.Duur = duur;
+            this.Genre = genre;
+            this.Uploader = uploader;
+            if (resolutie == "1080P")
+            {
+                this.Resolutie = Resolutie._1080P;
+            }
+            if (resolutie == "720P")
+            {
+                this.Resolutie = Resolutie._720P;
+            }
+            if (resolutie == "480P")
+            {
+                this.Resolutie = Resolutie._480P;
+            }
+            if (resolutie == "Low Resolution")
+            {
+                this.Resolutie = Resolutie.LowResolution;
+            }
+        }
     }
 }

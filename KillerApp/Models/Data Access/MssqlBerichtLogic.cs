@@ -75,8 +75,8 @@ namespace KillerApp.Models.Data_Access
                                 "INSERT INTO Bericht (Verzender, Ontvanger, Titel, Tekst) VALUES (@verzender, @ontvanger, @titel, @tekst)";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@verzender", bericht.Verzender);
-                            cmd.Parameters.AddWithValue("@ontvanger", bericht.Ontvanger);
+                            cmd.Parameters.AddWithValue("@verzender", bericht.Verzender.Gebruikernr);
+                            cmd.Parameters.AddWithValue("@ontvanger", bericht.Ontvanger.Gebruikernr);
                             cmd.Parameters.AddWithValue("@titel", bericht.Titel);
                             cmd.Parameters.AddWithValue("@tekst", bericht.Tekst);
 

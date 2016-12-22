@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using KillerApp.Models.Data_Access;
@@ -13,6 +14,8 @@ namespace KillerApp.Models
         public string Gebruikersnaam { get; set; }
         public Geslacht Geslacht { get; set; }
         public string Emailadres { get; set; }
+
+        [DataType(DataType.Password)]
         public string Wachtwoord { get; set; }
         public Abonnement Abonnement { get; set; }
         public List<Gebruiker> Volgers { get; set; }

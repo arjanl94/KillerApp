@@ -12,6 +12,7 @@ namespace KillerApp.Controllers
     {
         private BerichtRepository berichtRepository = new BerichtRepository(new MssqlBerichtLogic());
         private ContentRepository contentRepository = new ContentRepository(new MssqlContentLogic());
+        private GebruikerRepository gebruikerRepository = new GebruikerRepository(new MssqlGebruikerLogic());
         // GET: Bericht
         public ActionResult Index()
         {
@@ -20,14 +21,21 @@ namespace KillerApp.Controllers
 
         public ActionResult Inbox()
         {
-            Gebruiker gebruiker = berichtRepository.SelectGebruiker(2);
-            List<Bericht> berichten = berichtRepository.Berichten(gebruiker);
-            return View(berichten);
+            if (Session["Gebruiker"] !=null)
+            {
+                Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+                List<Bericht> berichten = berichtRepository.Berichten(gebruiker);
+                return View(berichten);
+            }
+            else
+            {
+                return RedirectToAction("All", "Content");
+            }
         }
 
         public ActionResult Details(int berichtnr)
         {
-            Gebruiker gebruiker = berichtRepository.SelectGebruiker(2);
+            Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
             List<Bericht> berichten = berichtRepository.Berichten(gebruiker);
             Bericht msg = berichten.Find(bericht => bericht.Berichtnr == berichtnr);
             return View(msg);
@@ -42,14 +50,16 @@ namespace KillerApp.Controllers
         [HttpGet]
         public ActionResult NieuwBericht()
         {
-            return View();
+            BerichtGebruikerView berichtGebruiker = new BerichtGebruikerView();
+            return View(berichtGebruiker);
         }
 
         [HttpPost]
         public ActionResult NieuwBericht(FormCollection form)
         {
-            Gebruiker verzender = contentRepository.SelectUploader(1);
-            Gebruiker ontvanger = contentRepository.SelectUploader(2);
+            Gebruiker verzender = Session["Gebruiker"] as Gebruiker;
+            string email = form["Emailadres"];
+            Gebruiker ontvanger = gebruikerRepository.GebruikerByEmail(email);
             string titel = form["Titel"];
             string tekst = form["Tekst"];
             Bericht bericht = new Bericht(verzender, ontvanger, titel, tekst);

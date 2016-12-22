@@ -38,5 +38,10 @@ namespace KillerApp.Models.Data_Access
         {
             return _gebruikerLogic.LoginGebruiker(email, wachtwoord);
         }
+
+        public Gebruiker GebruikerByEmail(string email)
+        {
+            return _gebruikerLogic.GebruikerByEmail(email);
+        }
     }
 }

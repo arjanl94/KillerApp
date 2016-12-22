@@ -205,13 +205,72 @@ namespace KillerApp.Models.Data_Access
                                     Wachtwoord);
                             }
                         }
-                        catch (Exception ex)
+                        catch 
                         {
                             return null;
                         }
                         finally
                         {
                             //Het sluiten van de verbinding met de database.
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public Gebruiker GebruikerByEmail(string email)
+        {
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "SELECT * FROM Gebruiker WHERE Emailadres = @email";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@email", email);
+
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                reader.Read();
+
+                                int gebrnr = reader.GetInt32(0);
+                                string abonnement = "null";
+                                string naam = "null";
+                                string gebruikersnaam = "null";
+
+                                if (!reader.IsDBNull(1))
+                                {
+                                    abonnement = reader.GetString(1);
+                                }
+                                if (!reader.IsDBNull(2))
+                                {
+                                    naam = reader.GetString(2);
+                                }
+                                if (!reader.IsDBNull(3))
+                                {
+                                    gebruikersnaam = reader.GetString(3);
+                                }
+                                Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
+                                string Email = reader.GetString(5);
+                                string Wachtwoord = reader.GetString(6);
+                                return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, Email,
+                                    Wachtwoord);
+                            }
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                        finally
+                        {
                             conn.Close();
                         }
                     }

@@ -25,5 +25,13 @@ namespace KillerApp.Models
             Genre = genre;
             Uploader = uploader;
         }
+        public Content(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader)
+        {
+            Naam = naam;
+            Beschrijving = beschrijving;
+            Duur = duur;
+            Genre = genre;
+            Uploader = uploader;
+        }
     }
 }

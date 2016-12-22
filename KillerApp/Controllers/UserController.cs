@@ -40,5 +40,11 @@ namespace KillerApp.Controllers
             }
             return View();
         }
+
+        public ActionResult Logout()
+        {
+            Session["Gebruiker"] = null;
+            return RedirectToAction("All", "Content");
+        }
     }
 }

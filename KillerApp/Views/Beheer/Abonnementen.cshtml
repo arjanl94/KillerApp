@@ -4,13 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class ="nav nav-tabs" role="tablist">
-    <li class="active"><a href="#">Abonnementen</a></li>
-    <li><a href="@Url.Action("Gebruikers", "Beheer")"><span>Gebruikers</span></a></li>
-    <li><a href="@Url.Action("Scheldwoorden", "Beheer")"><span>Scheldwoorden</span></a></li>
+<div class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#">Abonnementen</a></li>
+        <li><a href="@Url.Action("Gebruikers", "Beheer")"><span>Gebruikers</span></a></li>
+        <li><a href="@Url.Action("Scheldwoorden", "Beheer")"><span>Scheldwoorden</span></a></li>
 </div>
 
 <h2>Lijst van Abonnementen</h2>
+
+<div class="col-md-offset-0 col-md-10">
+    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("AddAbonnement", "Beheer")'">Nieuw abonnement</button>
+</div>
+<br><br>
 <table class="table">
     
     <tr>
@@ -47,6 +52,3 @@
         </tr>
     }
 </table>
-<div>
-    @Html.ActionLink("Voeg abonnement toe", "AddAbonnement")
-</div>

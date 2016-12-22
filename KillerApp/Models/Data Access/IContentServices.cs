@@ -9,9 +9,9 @@ namespace KillerApp.Models.Data_Access
     {
         List<Content> ListContent();
         List<Content> ListGebruikerContent(Gebruiker gebruiker);
-        void AddVideo(Video video, Gebruiker uploader);
+        void AddVideo(Video video);
         void AddMuziek(Muziek muziek, Gebruiker uploader);
-        void RemoveVideo(Video video);
+        void RemoveVideo(int videonr);
         void RemoveMuziek(Muziek muziek);
         Gebruiker SelectUploader(int gebruikernr);
     }

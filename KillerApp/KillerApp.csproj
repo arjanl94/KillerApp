@@ -206,6 +206,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BerichtGebruikerView.cs" />
     <Compile Include="Models\Business\Abonnement.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Business\Bericht.cs" />
@@ -311,6 +312,9 @@
     <Content Include="Views\Beheer\WijzigGebruiker.cshtml" />
     <Content Include="Views\Beheer\AddGebruiker.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Content\UploadedContent.cshtml" />
+    <Content Include="Views\Content\Upload.cshtml" />
+    <Content Include="Views\Bericht\NieuwBericht.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

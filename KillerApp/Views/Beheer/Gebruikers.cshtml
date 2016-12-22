@@ -12,10 +12,10 @@
 
 <h2>Lijst van Gebruikers</h2>
 
-<div>
-    @Html.ActionLink("Voeg gebruiker toe", "AddGebruiker")
+<div class="col-md-offset-0 col-md-10">
+    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("AddGebruiker", "Beheer")'">Nieuwe gebruiker</button>
 </div>
-
+<br><br>
 <table class="table">
     <tr>
         <th></th>
