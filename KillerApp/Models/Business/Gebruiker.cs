@@ -13,6 +13,8 @@ namespace KillerApp.Models
         public string Naam { get; set; }
         public string Gebruikersnaam { get; set; }
         public Geslacht Geslacht { get; set; }
+
+        [DataType(DataType.EmailAddress)]
         public string Emailadres { get; set; }
 
         [DataType(DataType.Password)]
@@ -69,6 +71,23 @@ namespace KillerApp.Models
             {
                 Admin = true;
             }
+        }
+
+        public Gebruiker(int gebruikernr, string naam, string gebruikersnaam, string email, string wachtwoord)
+        {
+            this.Gebruikernr = gebruikernr;
+            this.Naam = naam;
+            this.Gebruikersnaam = gebruikersnaam;
+            this.Emailadres = email;
+            this.Wachtwoord = wachtwoord;
+        }
+        public Gebruiker(string naam, string gebruikersnaam, string geslacht, string email, string wachtwoord)
+        {
+            this.Naam = naam;
+            this.Gebruikersnaam = gebruikersnaam;
+            this.Emailadres = email;
+            this.Wachtwoord = wachtwoord;
+            this.Geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), geslacht);
         }
 
         public void AddVolger(Gebruiker gebruiker)

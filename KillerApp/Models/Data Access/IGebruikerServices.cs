@@ -9,7 +9,7 @@ namespace KillerApp.Models.Data_Access
     {
         List<Gebruiker> ListGebruikers();
         void AddGebruiker(Gebruiker gebruiker);
-        void RemoveGebruiker(Gebruiker gebruiker);
+        void RemoveGebruiker(int gebruikernr);
         void EditGebruiker(Gebruiker gebruiker);
         Gebruiker LoginGebruiker(string email, string wachtwoord);
         Gebruiker GebruikerByEmail(string email);

@@ -9,14 +9,16 @@ namespace KillerApp.Models
     public abstract class Content
     {
         public int Nr { get; set; }
+        public int Contentnr { get; set; }
         public string Naam { get; set; }
         public string Beschrijving { get; set; }
         public TimeSpan Duur { get; set; }
         public Genre Genre { get; set; }
         public Gebruiker Uploader { get; set; }
         public List<Reactie> Reacties { get; set; }
+        public bool Video { get; set; }
 
-        public Content(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader)
+        public Content(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, int contentnr)
         {
             Nr = nr;
             Naam = naam;
@@ -24,6 +26,7 @@ namespace KillerApp.Models
             Duur = duur;
             Genre = genre;
             Uploader = uploader;
+            Contentnr = contentnr;
         }
         public Content(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader)
         {
@@ -32,6 +35,11 @@ namespace KillerApp.Models
             Duur = duur;
             Genre = genre;
             Uploader = uploader;
+        }
+
+        public void AddReacties(List<Reactie> reacties)
+        {
+            this.Reacties = reacties;
         }
     }
 }

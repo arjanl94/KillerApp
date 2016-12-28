@@ -315,6 +315,8 @@
     <Content Include="Views\Content\UploadedContent.cshtml" />
     <Content Include="Views\Content\Upload.cshtml" />
     <Content Include="Views\Bericht\NieuwBericht.cshtml" />
+    <Content Include="Views\Content\View.cshtml" />
+    <Content Include="Views\Content\UploadMuziek.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

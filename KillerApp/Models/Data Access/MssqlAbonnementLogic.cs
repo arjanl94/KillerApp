@@ -10,11 +10,11 @@ namespace KillerApp.Models.Data_Access
     public class MssqlAbonnementLogic : IAbonnementServices
     {
         //Connectiestring met database
-        //private const string Connectie =
-        //    "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
-
         private const string Connectie =
-            "Server=MSI;Database=KillerApp;Trusted_Connection=Yes;";
+            "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
+
+        //private const string Connectie =
+        //    "Server=MSI;Database=KillerApp;Trusted_Connection=Yes;";
 
         public List<Abonnement> ListAbonnementen()
         {

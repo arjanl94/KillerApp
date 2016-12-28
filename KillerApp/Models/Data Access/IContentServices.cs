@@ -10,9 +10,11 @@ namespace KillerApp.Models.Data_Access
         List<Content> ListContent();
         List<Content> ListGebruikerContent(Gebruiker gebruiker);
         void AddVideo(Video video);
-        void AddMuziek(Muziek muziek, Gebruiker uploader);
+        void AddMuziek(Muziek muziek);
         void RemoveVideo(int videonr);
-        void RemoveMuziek(Muziek muziek);
+        void RemoveMuziek(int muzieknr);
         Gebruiker SelectUploader(int gebruikernr);
+        Video SelectVideo(int videonr);
+        Muziek SelectMuziek(int muzieknr);
     }
 }

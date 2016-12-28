@@ -1,0 +1,107 @@
+﻿@model KillerApp.Models.Content
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <hr/>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+
+        <div class="row">
+            <div class="col-xs-6 col-md-5">
+                <a href="#" class="thumbnail">
+                    <img src="..." alt="...">
+                </a>
+            </div>
+
+        </div>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Uploader)
+        </dt>
+
+        <dd>
+            @if (Model.Uploader.Gebruikersnaam == "null")
+            {
+                @Html.DisplayName(Model.Uploader.Naam)
+            }
+            else
+            {
+                @Html.DisplayName(Model.Uploader.Gebruikersnaam)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Beschrijving)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Beschrijving)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duur)
+        </dd>
+    </dl>
+</div>
+
+@if (Session["Gebruiker"] != null)
+{
+using (Html.BeginForm())
+ {
+     @Html.HiddenFor(model => model.Nr)
+     <div class="form-horizontal">
+         <hr/>
+         <div class="form-group">
+             @Html.Label("Nieuw reactie", new {@class = "control-label col-md-2"})
+             <div class="col-md-10">
+                 @Html.Editor("Reactie", new {htmlAttributes = new {@class = "form-control"}})
+             </div>
+         </div>
+         <div class="form-group">
+             <div class="col-md-offset-2 col-md-10">
+                 <input type="submit" value="Opslaan" class="btn btn-default"/>
+             </div>
+         </div>
+     </div>
+ }
+}
+
+@foreach (var item in Model.Reacties)
+ {
+     <div>
+         <hr/>
+         <dl class="dl-horizontal">
+             <dt>
+                 @if (item.Gebruiker.Gebruikersnaam == "null")
+                 {
+                     @Html.DisplayName(item.Gebruiker.Naam)
+                 }
+                 else
+                 {
+                     @Html.DisplayName(item.Gebruiker.Gebruikersnaam)
+                 }
+             </dt>
+
+             <dd>
+                 @Html.DisplayFor(model => item.Tekst)
+             </dd>
+         </dl>
+     </div>
+
+ }
+
+

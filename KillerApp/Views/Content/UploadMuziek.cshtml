@@ -1,20 +1,20 @@
-﻿@using KillerApp.Models
-@model KillerApp.Models.Video
+﻿@model KillerApp.Models.Muziek
 
 @{
-    ViewBag.Title = "Upload";
+    ViewBag.Title = "UploadMuziek";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="nav nav-tabs" role="tablist">
     <li><a href="@Url.Action("UploadedContent", "Content")"><span>Geüpload</span></a></li>
-    <li class="active"><a href="#">Upload video</a></li>
-    <li><a href="@Url.Action("UploadMuziek", "Content")"><span>Upload muziek</span></a></li>
+    <li><a href="@Url.Action("Upload", "Content")"><span>Upload video</span></a></li>
+    <li class="active"><a href="#">Upload muziek</a></li>
 </div>
-<h2>Upload video</h2>
-@using (Html.BeginForm())
+<h2>Upload muziek</h2>
+
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -41,7 +41,7 @@
                 @Html.ValidationMessageFor(model => model.Duur, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -56,16 +56,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Resolutie, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.kHz, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Resolutie, new List<SelectListItem>
+                @Html.DropDownListFor(model => model.kHz, new List<SelectListItem>
                 {
-                    new SelectListItem {Text = "1080P", Value = "1080P" },
-                    new SelectListItem {Text = "720P", Value = "720P" },
-                    new SelectListItem {Text = "480P", Value = "480P" },
-                    new SelectListItem {Text = "Low Resolution", Value = "Low Resolution" }
+                    new SelectListItem {Text= "48", Value = "48" },
+                    new SelectListItem {Text= "96", Value = "96" },
+                    new SelectListItem {Text= "192", Value = "192" }
                 }, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Resolutie, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -76,4 +75,5 @@
         </div>
     </div>
 }
+
 

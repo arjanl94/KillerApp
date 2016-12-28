@@ -8,7 +8,7 @@ namespace KillerApp.Models
     public class Video : Content
     {
         public Resolutie Resolutie { get; set; }
-        public Video(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, string resolutie) : base(nr, naam, beschrijving, duur, genre, uploader)
+        public Video(int nr, string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, string resolutie, int contentnr) : base(nr, naam, beschrijving, duur, genre, uploader, contentnr)
         {
             this.Nr = nr;
             this.Naam = naam;
@@ -32,6 +32,8 @@ namespace KillerApp.Models
             {
                 this.Resolutie = Resolutie.LowResolution;
             }
+            this.Video = true;
+            this.Contentnr = contentnr;
         }
 
         public Video(string naam, string beschrijving, TimeSpan duur, Genre genre, Gebruiker uploader, string resolutie) : base(naam, beschrijving, duur, genre, uploader)
@@ -57,6 +59,7 @@ namespace KillerApp.Models
             {
                 this.Resolutie = Resolutie.LowResolution;
             }
+            this.Video = true;
         }
     }
 }

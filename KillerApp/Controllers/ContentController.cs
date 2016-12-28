@@ -12,6 +12,7 @@ namespace KillerApp.Controllers
     public class ContentController : Controller
     {
         private ContentRepository contentRepository = new ContentRepository(new MssqlContentLogic());
+        private ReactieRepository reactieRepository = new ReactieRepository(new MssqlReactieLogic());
 
         public ActionResult All()
         {
@@ -30,15 +31,10 @@ namespace KillerApp.Controllers
         public ActionResult UploadedContent()
         {
             Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
-            try
-            {
-                List<Content> gebruikerscontent = contentRepository.ListGebruikerContent(gebruiker);
-                return View(gebruikerscontent);
-            }
-            catch (NullReferenceException)
-            {
-                throw new NullReferenceException("Er is geen content");
-            }
+
+            List<Content> gebruikerscontent = contentRepository.ListGebruikerContent(gebruiker);
+            return View(gebruikerscontent);
+
         }
 
         [HttpGet]
@@ -54,17 +50,65 @@ namespace KillerApp.Controllers
             string naam = form["Naam"];
             string beschrijving = form["Beschrijving"];
             TimeSpan duur = TimeSpan.Parse(form["Duur"]);
-            Genre genre = (Genre)Enum.Parse(typeof(Genre),form["Genre"]);
+            Genre genre = (Genre)Enum.Parse(typeof(Genre), form["Genre"]);
             string resolutie = form["Resolutie"];
             Video video = new Video(naam, beschrijving, duur, genre, uploader, resolutie);
             contentRepository.AddVideo(video);
             return RedirectToAction("UploadedContent");
         }
 
-        public ActionResult VerwijderContent(int videonr)
+        [HttpGet]
+        public ActionResult UploadMuziek()
         {
-            contentRepository.RemoveVideo(videonr);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadMuziek(FormCollection form)
+        {
+            Gebruiker uploader = Session["Gebruiker"] as Gebruiker;
+            string naam = form["Naam"];
+            string beschrijving = form["Beschrijving"];
+            TimeSpan duur = TimeSpan.Parse(form["Duur"]);
+            Genre genre = (Genre) Enum.Parse(typeof(Genre), form["Genre"]);
+            int khz = Convert.ToInt32(form["kHz"]);
+            Muziek muziek = new Muziek(naam, beschrijving, duur, genre, uploader, khz);
+            contentRepository.AddMuziek(muziek);
             return RedirectToAction("UploadedContent");
         }
+
+        public ActionResult VerwijderContent(int contentnr)
+        {
+            contentRepository.RemoveVideo(contentnr);
+            return RedirectToAction("UploadedContent");
+        }
+
+        public ActionResult VerwijderMuziek(int contentnr)
+        {
+            contentRepository.RemoveMuziek(contentnr);
+            return RedirectToAction("UploadedContent");
+        }
+
+        [HttpGet]
+        public ActionResult View(int contentnr)
+        {
+            List<Reactie> reacties = reactieRepository.ListContentReacties(contentnr);
+            reacties.Reverse();
+            Video video = contentRepository.SelectVideo(contentnr);
+            video.AddReacties(reacties);
+            return View(video);
+        }
+
+        [HttpPost]
+        public ActionResult View(FormCollection form)
+        {
+            Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+            int contentnr = Convert.ToInt32(form["Nr"]);
+            string tekst = form["Reactie"];
+            Reactie reactie = new Reactie(gebruiker, tekst, contentnr);
+            reactieRepository.AddReactie(reactie);
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
     }
 }

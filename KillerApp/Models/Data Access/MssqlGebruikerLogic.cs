@@ -14,11 +14,10 @@ namespace KillerApp.Models.Data_Access
     public class MssqlGebruikerLogic : IGebruikerServices
     {
         //Connectiestring met database
-        //private const string Connectie =
-        //    "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
-
         private const string Connectie =
-            "Server=MSI;Database=KillerApp;Trusted_Connection=Yes;";
+            "Server=mssql.fhict.local;Database=dbi347556;User Id=dbi347556;Password=Qwerty1";
+        
+        //    "Server=MSI;Database=KillerApp;Trusted_Connection=Yes;";
 
         //Haalt een lijst met alle gebruikers op
         public List<Gebruiker> ListGebruikers()
@@ -95,34 +94,88 @@ namespace KillerApp.Models.Data_Access
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand())
                     {
-                        try
+                        // Als alleen een gebruikersnaam is ingevoerd
+                        if (gebruiker.Naam == null && gebruiker.Gebruikersnaam != null)
                         {
-                            cmd.CommandText =
-                                "INSERT INTO Gebruiker (Naam, Gebruikersnaam, Geslacht, Emailadres, Wachtwoord) VALUES (@naam, @gebruikersnaam, @geslacht, @emailadres, @wachtwoord";
-                            cmd.Connection = conn;
+                            try
+                            {
+                                cmd.CommandText =
+                                    "INSERT INTO Gebruiker (Gebruikersnaam, Geslacht, Emailadres, Wachtwoord) VALUES (@gebruikersnaam, @geslacht, @emailadres, @wachtwoord)";
+                                cmd.Connection = conn;
+                                
+                                cmd.Parameters.AddWithValue("@gebruikersnaam", gebruiker.Gebruikersnaam);
+                                cmd.Parameters.AddWithValue("@geslacht", gebruiker.Geslacht.ToString());
+                                cmd.Parameters.AddWithValue("@emailadres", gebruiker.Emailadres);
+                                cmd.Parameters.AddWithValue("@wachtwoord", gebruiker.Wachtwoord);
 
-                            cmd.Parameters.AddWithValue("@naam", gebruiker.Naam);
-                            cmd.Parameters.AddWithValue("@gebruikersnaam", gebruiker.Gebruikersnaam);
-                            cmd.Parameters.AddWithValue("@geslacht", gebruiker.Geslacht);
-                            cmd.Parameters.AddWithValue("@emailadres", gebruiker.Emailadres);
-                            cmd.Parameters.AddWithValue("@wachtwoord", gebruiker.Wachtwoord);
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception(ex.Message);
+                            }
+                            finally
+                            {
+                                conn.Close();
+                            }
+                        }
+                        // Als alleen een naam is ingevoerd
+                        else if (gebruiker.Naam != null && gebruiker.Gebruikersnaam == null)
+                        {
+                            try
+                            {
+                                cmd.CommandText =
+                                    "INSERT INTO Gebruiker (Naam, Geslacht, Emailadres, Wachtwoord) VALUES (@naam, @geslacht, @emailadres, @wachtwoord)";
+                                cmd.Connection = conn;
 
-                            cmd.ExecuteNonQuery();
+                                cmd.Parameters.AddWithValue("@naam", gebruiker.Naam);
+                                cmd.Parameters.AddWithValue("@geslacht", gebruiker.Geslacht.ToString());
+                                cmd.Parameters.AddWithValue("@emailadres", gebruiker.Emailadres);
+                                cmd.Parameters.AddWithValue("@wachtwoord", gebruiker.Wachtwoord);
+
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception(ex.Message);
+                            }
+                            finally
+                            {
+                                conn.Close();
+                            }
                         }
-                        catch (Exception ex)
+                        // Als naam en gebruikersnaam is ingevoerd
+                        else if (gebruiker.Naam != null && gebruiker.Gebruikersnaam != null)
                         {
-                            throw new Exception(ex.Message);
-                        }
-                        finally
-                        {
-                            conn.Close();
+                            try
+                            {
+                                cmd.CommandText =
+                                    "INSERT INTO Gebruiker (Naam, Gebruikersnaam, Geslacht, Emailadres, Wachtwoord) VALUES (@naam, @gebruikersnaam, @geslacht, @emailadres, @wachtwoord)";
+                                cmd.Connection = conn;
+
+                                cmd.Parameters.AddWithValue("@naam", gebruiker.Naam);
+                                cmd.Parameters.AddWithValue("@gebruikersnaam", gebruiker.Gebruikersnaam);
+                                cmd.Parameters.AddWithValue("@geslacht", gebruiker.Geslacht.ToString());
+                                cmd.Parameters.AddWithValue("@emailadres", gebruiker.Emailadres);
+                                cmd.Parameters.AddWithValue("@wachtwoord", gebruiker.Wachtwoord);
+
+                                cmd.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception(ex.Message);
+                            }
+                            finally
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
             }
         }
 
-        public void RemoveGebruiker(Gebruiker gebruiker)
+        public void RemoveGebruiker(int gebruikernr)
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
             {
@@ -137,7 +190,7 @@ namespace KillerApp.Models.Data_Access
                                 "DELETE FROM Gebruiker WHERE Gebruikernr = @gebrnr";
                             cmd.Connection = conn;
 
-                            cmd.Parameters.AddWithValue("@gebrnr", gebruiker.Gebruikernr);
+                            cmd.Parameters.AddWithValue("@gebrnr", gebruikernr);
 
                             cmd.ExecuteNonQuery();
                         }
@@ -156,7 +209,38 @@ namespace KillerApp.Models.Data_Access
 
         public void EditGebruiker(Gebruiker gebruiker)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "UPDATE Gebruiker SET Naam = @naam, Gebruikersnaam = @gebrnaam, Emailadres = @email, Wachtwoord = @ww WHERE Gebruikernr = @gebrnr";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@naam", gebruiker.Naam);
+                            cmd.Parameters.AddWithValue("@gebrnaam", gebruiker.Gebruikersnaam);
+                            cmd.Parameters.AddWithValue("@email", gebruiker.Emailadres);
+                            cmd.Parameters.AddWithValue("@gebrnr", gebruiker.Gebruikernr);
+                            cmd.Parameters.AddWithValue("@ww", gebruiker.Wachtwoord);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
 
         public Gebruiker LoginGebruiker(string email, string wachtwoord)

@@ -9,6 +9,9 @@
 <table class="table">
     <tr>
         <th>
+            
+        </th>
+        <th>
             Naam
         </th>
         <th>
@@ -25,6 +28,9 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.ActionLink("Bekijk", "View", new { contentnr = item.Nr })
+            </td>
             <td>
                 @Html.Raw(item.Naam)
             </td>

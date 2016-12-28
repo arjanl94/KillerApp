@@ -11,11 +11,11 @@
             @{ Gebruiker gebruiker = (Gebruiker) HttpContext.Current.Session["Gebruiker"];}
             @if (gebruiker.Naam == "null")
             {
-                @Html.ActionLink("Hello " + gebruiker.Gebruikersnaam + "!", "UploadedContent", "Content", routeValues: null, htmlAttributes: new { title = "UploadedContent" })
+                @Html.ActionLink("Welkom " + gebruiker.Gebruikersnaam + "!", "UploadedContent", "Content", routeValues: null, htmlAttributes: new { title = "UploadedContent" })
             }
             else
             {
-                @Html.ActionLink("Hello " + gebruiker.Naam + "!", "UploadedContent", "Content", routeValues: null, htmlAttributes: new { title = "UploadedContent" })
+                @Html.ActionLink("Welkom " + gebruiker.Naam + "!", "UploadedContent", "Content", routeValues: null, htmlAttributes: new { title = "UploadedContent" })
             }
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
@@ -25,7 +25,6 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "User", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

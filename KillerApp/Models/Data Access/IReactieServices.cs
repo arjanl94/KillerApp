@@ -7,7 +7,8 @@ namespace KillerApp.Models.Data_Access
 {
     public interface IReactieServices
     {
-        List<Reactie> ListContentReacties();
+        List<Reactie> ListContentReacties(int contentnr);
         void AddReactie(Reactie reactie);
+        Gebruiker SelectGebruiker(int gebruikernr);
     }
 }

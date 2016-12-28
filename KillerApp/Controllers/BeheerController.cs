@@ -17,8 +17,23 @@ namespace KillerApp.Controllers
         
         public ActionResult Gebruikers()
         {
-            List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
-            return View(gebruikers);
+            if (Session["Gebruiker"] != null)
+            {
+                Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+                if (gebruiker.Admin == true)
+                {
+                    List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
+                    return View(gebruikers);
+                }
+                else
+                {
+                    return RedirectToAction("All", "Content");
+                }
+            }
+            else
+            {
+                return RedirectToAction("All", "Content");
+            }
         }
 
         [HttpGet]
@@ -30,7 +45,13 @@ namespace KillerApp.Controllers
         [HttpPost]
         public ActionResult AddGebruiker(FormCollection form)
         {
-            return View();
+            string naam = form["Naam"];
+            string gebruikersnaam = form["Gebruikersnaam"];
+            string email = form["Emailadres"];
+            string geslacht = form["Geslacht"];
+            string wachtwoord = form["Wachtwoord"];
+            gebruikerRepository.AddGebruiker(new Gebruiker(naam, gebruikersnaam, geslacht, email, wachtwoord));
+            return RedirectToAction("Gebruikers");
         }
 
         [HttpGet]
@@ -44,20 +65,40 @@ namespace KillerApp.Controllers
         [HttpPost]
         public ActionResult WijzigGebruiker(FormCollection form, string email)
         {
-            string abonnement = form["Abonnement"];
+            int gebruikernr = Convert.ToInt32(form["Gebruikernr"]);
             string naam = form["Naam"];
             string gebruikersnaam = form["Gebruikersnaam"];
-            Geslacht geslacht = (Geslacht) Enum.Parse(typeof(Geslacht),form["Geslacht"]);
             string wachtwoord = form["Wachtwoord"];
-            Gebruiker gebruiker = new Gebruiker(abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
+            Gebruiker gebruiker = new Gebruiker(gebruikernr, naam, gebruikersnaam, email, wachtwoord);
             gebruikerRepository.EditGebruiker(gebruiker);
             return RedirectToAction("Gebruikers");
         }
-        
+
+        public ActionResult VerwijderGebruiker(int Gebruikernr)
+        {
+            gebruikerRepository.RemoveGebruiker(Gebruikernr);
+            return RedirectToAction("Gebruikers");
+        }
+
         public ActionResult Abonnementen()
         {
-            List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
-            return View(abonnementen);
+            if (Session["Gebruiker"] != null)
+            {
+                Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+                if (gebruiker.Admin == true)
+                {
+                    List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
+                    return View(abonnementen);
+                }
+                else
+                {
+                    return RedirectToAction("All", "Content");
+                }
+            }
+            else
+            {
+                return RedirectToAction("All", "Content");
+            }
         }
 
         [HttpGet]
@@ -74,7 +115,15 @@ namespace KillerApp.Controllers
             string beschrijving = form["Beschrijving"];
 
             Abonnement abo = new Abonnement(naam, prijs, beschrijving);
-            abonnementRepository.AddAbonnement(abo);
+            try
+            {
+                abonnementRepository.AddAbonnement(abo);
+            }
+            catch
+            {
+                ModelState.AddModelError("Gebruik", "Naam al in gebruik");
+                return View();
+            }
             return RedirectToAction("Abonnementen");
         }
 
@@ -106,8 +155,23 @@ namespace KillerApp.Controllers
 
         public ActionResult Scheldwoorden()
         {
-            List<Scheldwoord> scheldwoorden = scheldwoordRepository.ListScheldwoorden();
-            return View(scheldwoorden);
+            if (Session["Gebruiker"] != null)
+            {
+                Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+                if (gebruiker.Admin == true)
+                {
+                    List<Scheldwoord> scheldwoorden = scheldwoordRepository.ListScheldwoorden();
+                    return View(scheldwoorden);
+                }
+                else
+                {
+                    return RedirectToAction("All", "Content");
+                }
+            }
+            else
+            {
+                return RedirectToAction("All", "Content");
+            }
         }
 
         [HttpGet]

@@ -29,9 +29,9 @@ namespace KillerApp.Models.Data_Access
             _contentLogic.AddVideo(video);
         }
 
-        public void AddMuziek(Muziek muziek, Gebruiker uploader)
+        public void AddMuziek(Muziek muziek)
         {
-            _contentLogic.AddMuziek(muziek, uploader);
+            _contentLogic.AddMuziek(muziek);
         }
 
         public void RemoveVideo(int videonr)
@@ -39,14 +39,24 @@ namespace KillerApp.Models.Data_Access
             _contentLogic.RemoveVideo(videonr);
         }
 
-        public void RemoveMuziek(Muziek muziek)
+        public void RemoveMuziek(int muzieknr)
         {
-            _contentLogic.RemoveMuziek(muziek);
+            _contentLogic.RemoveMuziek(muzieknr);
         }
 
         public Gebruiker SelectUploader(int gebruikernr)
         {
             return _contentLogic.SelectUploader(gebruikernr);
+        }
+
+        public Video SelectVideo(int videonr)
+        {
+            return _contentLogic.SelectVideo(videonr);
+        }
+
+        public Muziek SelectMuziek(int muzieknr)
+        {
+            return _contentLogic.SelectMuziek(muzieknr);
         }
     }
 }

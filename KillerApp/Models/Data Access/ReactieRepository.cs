@@ -14,14 +14,19 @@ namespace KillerApp.Models.Data_Access
             _reactieLogic = reactieLogic;
         }
 
-        public List<Reactie> ListContentReacties()
+        public List<Reactie> ListContentReacties(int contentnr)
         {
-            return _reactieLogic.ListContentReacties();
+            return _reactieLogic.ListContentReacties(contentnr);
         }
 
         public void AddReactie(Reactie reactie)
         {
             _reactieLogic.AddReactie(reactie);
+        }
+
+        public Gebruiker SelectGebruiker(int gebruikernr)
+        {
+            return _reactieLogic.SelectGebruiker(gebruikernr);
         }
     }
 }

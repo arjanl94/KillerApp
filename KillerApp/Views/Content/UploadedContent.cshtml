@@ -5,8 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#">Geüpload</a></li>
-        <li><a href="@Url.Action("Upload", "Content")"><span>Upload</span></a></li>
+    <li class="active"><a href="#">Geüpload</a></li>
+    <li><a href="@Url.Action("Upload", "Content")"><span>Upload</span></a></li>
 </div>
 
 <h2>Eigen Content</h2>
@@ -28,7 +28,14 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Verwijder", "VerwijderContent", new { videonr = item.Nr }, new { onclick = "return confirm('Weet je zeker dat je de content wilt verwijderen?');" })
+                @if (item.Video == true)
+                {
+                    @Html.ActionLink("Verwijder", "VerwijderContent", new {contentnr = item.Contentnr}, new {onclick = "return confirm('Weet je zeker dat je de content wilt verwijderen?');"})
+                }
+                else if (item.Video != true)
+                {
+                    @Html.ActionLink("Verwijder", "VerwijderMuziek", new { contentnr = item.Contentnr }, new { onclick = "return confirm('Weet je zeker dat je de content wilt verwijderen?');" })
+                }
             </td>
             <td>
                 @Html.Raw(item.Naam)

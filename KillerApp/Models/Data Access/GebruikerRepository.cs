@@ -24,9 +24,9 @@ namespace KillerApp.Models.Data_Access
             _gebruikerLogic.AddGebruiker(gebruiker);
         }
 
-        public void RemoveGebruiker(Gebruiker gebruiker)
+        public void RemoveGebruiker(int gebruikernr)
         {
-            _gebruikerLogic.RemoveGebruiker(gebruiker);
+            _gebruikerLogic.RemoveGebruiker(gebruikernr);
         }
 
         public void EditGebruiker(Gebruiker gebruiker)
