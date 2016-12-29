@@ -45,10 +45,13 @@ namespace KillerApp.Models.Data_Access
                                 //Voor iedere kolom die hij leest, geeft hij de waarde van die kolom aan het volgende. 
                                 //De kolom wordt gekozen door middel van (kolom) aan het eind.
                                 int gebrnr = reader.GetInt32(0);
+
+                                //Geeft een standaard waarde "null" mee wat vervolgens aangepast wordt mocht er iets in de database zijn
                                 string abonnement = "null";
                                 string naam = "null";
                                 string gebruikersnaam = "null";
 
+                                //Als de kolom niet leeg is wordt de data uit de tabel gehaald
                                 if (!reader.IsDBNull(1))
                                 {
                                     abonnement = reader.GetString(1);
@@ -64,7 +67,8 @@ namespace KillerApp.Models.Data_Access
                                 Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                                 string email = reader.GetString(5);
                                 string wachtwoord = reader.GetString(6);
-                                gebruikers.Add(new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord));
+                                int aantal = reader.GetInt32(7);
+                                gebruikers.Add(new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord, aantal));
                             }
                             //Retourneert de lijst met gebruikers
                             return gebruikers;
@@ -108,6 +112,7 @@ namespace KillerApp.Models.Data_Access
                                 cmd.Parameters.AddWithValue("@emailadres", gebruiker.Emailadres);
                                 cmd.Parameters.AddWithValue("@wachtwoord", gebruiker.Wachtwoord);
 
+                                //Voert de query uit op de database
                                 cmd.ExecuteNonQuery();
                             }
                             catch (Exception ex)
@@ -285,8 +290,9 @@ namespace KillerApp.Models.Data_Access
                                 Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                                 string Email = reader.GetString(5);
                                 string Wachtwoord = reader.GetString(6);
+                                int Aantal = reader.GetInt32(7);
                                 return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, Email,
-                                    Wachtwoord);
+                                    Wachtwoord, Aantal);
                             }
                         }
                         catch 
@@ -345,8 +351,9 @@ namespace KillerApp.Models.Data_Access
                                 Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                                 string Email = reader.GetString(5);
                                 string Wachtwoord = reader.GetString(6);
+                                int Aantal = reader.GetInt32(7);
                                 return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, Email,
-                                    Wachtwoord);
+                                    Wachtwoord, Aantal);
                             }
                         }
                         catch
@@ -361,6 +368,37 @@ namespace KillerApp.Models.Data_Access
                 }
             }
             return null;
+        }
+
+        //De aantal berichten met ongepast taalgebruik per gebruiker wordt opnieuw berekend met deze methode.
+        public void CheckGebruikerstaal()
+        {
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "EXECUTE CountCensor";
+                            cmd.Connection = conn;
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch(Exception)
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
         }
     }
 }

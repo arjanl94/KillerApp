@@ -13,18 +13,22 @@ namespace KillerApp.Controllers
         private GebruikerRepository gebruikerRepository = new GebruikerRepository(new MssqlGebruikerLogic());
         private AbonnementRepository abonnementRepository = new AbonnementRepository(new MssqlAbonnementLogic());
         private ScheldwoordRepository scheldwoordRepository = new ScheldwoordRepository(new MssqlScheldwoordLogic());
+        private BerichtRepository berichtRepository = new BerichtRepository(new MssqlBerichtLogic());
         // GET: Beheer
         
         public ActionResult Gebruikers()
         {
+            //Kijkt of er een gebruiker is ingelogd
             if (Session["Gebruiker"] != null)
             {
                 Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+                //Kijkt of de gebruiker adminrechten heeft. Als dit zo is wordt de lijst met gebruikers getoond.
                 if (gebruiker.Admin == true)
                 {
                     List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
                     return View(gebruikers);
                 }
+                //Als de gebruiker geen admin is wordt de pagina van content getoond.
                 else
                 {
                     return RedirectToAction("All", "Content");
@@ -45,6 +49,7 @@ namespace KillerApp.Controllers
         [HttpPost]
         public ActionResult AddGebruiker(FormCollection form)
         {
+            //Haalt alle gegevens uit de Form en wordt vervolgens gebruikt om een gebruiker aan te maken.
             string naam = form["Naam"];
             string gebruikersnaam = form["Gebruikersnaam"];
             string email = form["Emailadres"];
@@ -57,6 +62,7 @@ namespace KillerApp.Controllers
         [HttpGet]
         public ActionResult WijzigGebruiker(string email)
         {
+            //Haalt een lijst gebruikers op en zoekt vervolgens de juiste gebruiker aan de hand van de email dat is meegegeven aan de Action
             List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
             Gebruiker user = gebruikers.Find(gebruiker => gebruiker.Emailadres == email);
             return View(user);
@@ -65,6 +71,8 @@ namespace KillerApp.Controllers
         [HttpPost]
         public ActionResult WijzigGebruiker(FormCollection form, string email)
         {
+            //De email wordt meegegeven met de Action, de overige informatie wordt uit de form gehaald om een gebruiker te wijzigen.
+            //Dit is gedaan omdat de email niet kan worden gewijzigd.
             int gebruikernr = Convert.ToInt32(form["Gebruikernr"]);
             string naam = form["Naam"];
             string gebruikersnaam = form["Gebruikersnaam"];
@@ -76,6 +84,7 @@ namespace KillerApp.Controllers
 
         public ActionResult VerwijderGebruiker(int Gebruikernr)
         {
+            //Aan de hand van de gebruikernr wordt de juiste gebruiker verwijdert.
             gebruikerRepository.RemoveGebruiker(Gebruikernr);
             return RedirectToAction("Gebruikers");
         }
@@ -192,6 +201,38 @@ namespace KillerApp.Controllers
         public ActionResult VerwijderScheldwoord(string woord)
         {
             scheldwoordRepository.RemoveScheldwoord(woord);
+            return RedirectToAction("Scheldwoorden");
+        }
+
+        public ActionResult GebruikersTaalgebruik()
+        {
+            gebruikerRepository.CheckGebruikerstaal();
+            List<Gebruiker> Gebruikers = gebruikerRepository.ListGebruikers();
+            //Een nieuwe lijst wordt aangemaakt waarin de gebruikers komen met meer dan 1 bericht met ongepast taalgebruik
+            //Die lijst wordt vervolgens meegegeven aan de View.
+            List<Gebruiker> GebruikersAantal = new List<Gebruiker>();
+            foreach (var item in Gebruikers)
+            {
+                if (item.Aantal >= 2)
+                {
+                    GebruikersAantal.Add(item);
+                }
+            }
+            return View(GebruikersAantal);
+        }
+
+        public ActionResult StuurMelding()
+        {
+            //In de session wordt de ontvanger gekozen die het bericht verstuurd naar alle gebruikers die te veel ongepast taalgebruik hebben gebruikt.
+            Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+            List<Gebruiker> Gebruikers = gebruikerRepository.ListGebruikers();
+            foreach (var item in Gebruikers)
+            {
+                if (item.Aantal >= 2)
+                {
+                    berichtRepository.SendBericht(new Bericht(gebruiker, item, "Taalgebruik", "U heeft te vaak ongepast taalgebruik gebruikt. Als dit nogmaals gebeurt zal uw account verwijdert worden"));
+                }
+            }
             return RedirectToAction("Scheldwoorden");
         }
 

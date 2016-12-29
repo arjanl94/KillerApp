@@ -1,0 +1,53 @@
+﻿@model List<KillerApp.Models.Gebruiker>
+@{
+    ViewBag.Title = "Gebruikers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="nav nav-tabs" role="tablist">
+    <li><a href="@Url.Action("Abonnementen", "Beheer")"><span>Abonnementen</span></a></li>
+    <li><a href="@Url.Action("Gebruikers", "Beheer")"><span>Gebruikers</span></a></li>
+    <li><a href="@Url.Action("Scheldwoorden", "Beheer")"><span>Scheldwoorden</span></a></li>
+    <li class="active"><a href="#">Gebruikers taalgebruik</a></li>
+</div>
+
+<h2>Gebruikers met ongepast taalgebruik</h2>
+
+<div class="col-md-offset-0 col-md-10">
+    <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("StuurMelding", "Beheer")'">Stuur melding</button>
+</div>
+<br><br>
+<table class="table">
+    <tr>
+        <th>
+            Naam
+        </th>
+        <th>
+            Gebruikersnaam
+        </th>
+        <th>
+            Emailadres
+        </th>
+        <th>
+            Aantal
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Encode(item.Naam)
+            </td>
+            <td>
+                @Html.Encode(item.Gebruikersnaam)
+            </td>
+            <td>
+                @Html.Encode(item.Emailadres)
+            </td>
+            <td>
+                @Html.Encode(item.Aantal)
+            </td>
+        </tr>
+    }
+</table>

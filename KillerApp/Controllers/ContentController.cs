@@ -92,6 +92,8 @@ namespace KillerApp.Controllers
         [HttpGet]
         public ActionResult View(int contentnr)
         {
+            //De reacties worden opgehaald aan de hand van de contentnr, de lijst met reacties wordt vervolgens omgedraaid zodat 
+            //het nieuwste bericht bovenaan staat.
             List<Reactie> reacties = reactieRepository.ListContentReacties(contentnr);
             reacties.Reverse();
             Video video = contentRepository.SelectVideo(contentnr);
@@ -102,11 +104,20 @@ namespace KillerApp.Controllers
         [HttpPost]
         public ActionResult View(FormCollection form)
         {
+            //Hier wordt een nieuw bericht toegevoegd. Als geen gebruiker is ingelogd is het niet mogelijk om een bericht te plaatsen
             Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
             int contentnr = Convert.ToInt32(form["Nr"]);
             string tekst = form["Reactie"];
             Reactie reactie = new Reactie(gebruiker, tekst, contentnr);
-            reactieRepository.AddReactie(reactie);
+            try
+            {
+                reactieRepository.AddReactie(reactie);
+            }
+            catch
+            {
+                RedirectToAction("All", "Content");
+            }
+            
             return Redirect(Request.UrlReferrer.ToString());
         }
 

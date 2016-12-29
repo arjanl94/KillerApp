@@ -43,5 +43,10 @@ namespace KillerApp.Models.Data_Access
         {
             return _gebruikerLogic.GebruikerByEmail(email);
         }
+
+        public void CheckGebruikerstaal()
+        {
+            _gebruikerLogic.CheckGebruikerstaal();
+        }
     }
 }

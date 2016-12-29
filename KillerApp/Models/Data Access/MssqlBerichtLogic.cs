@@ -95,6 +95,8 @@ namespace KillerApp.Models.Data_Access
             }
         }
 
+        //Elk bericht heeft een verzender en ontvanger, vandaar dat een aparte methode is toegevoegd om de gebruiker te selecteren uit de database
+        //Aan de hand van de id's die aanwezig zijn in de Bericht tabel
         public Gebruiker SelectGebruiker(int gebruikernr)
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
@@ -133,7 +135,8 @@ namespace KillerApp.Models.Data_Access
                             Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                             string email = reader.GetString(5);
                             string wachtwoord = reader.GetString(6);
-                            return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
+                            int aantal = reader.GetInt32(7);
+                            return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord, aantal);
                         }
                         catch (Exception ex)
                         {

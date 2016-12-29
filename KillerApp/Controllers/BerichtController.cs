@@ -11,7 +11,6 @@ namespace KillerApp.Controllers
     public class BerichtController : Controller
     {
         private BerichtRepository berichtRepository = new BerichtRepository(new MssqlBerichtLogic());
-        private ContentRepository contentRepository = new ContentRepository(new MssqlContentLogic());
         private GebruikerRepository gebruikerRepository = new GebruikerRepository(new MssqlGebruikerLogic());
         // GET: Bericht
         public ActionResult Index()
@@ -21,6 +20,8 @@ namespace KillerApp.Controllers
 
         public ActionResult Inbox()
         {
+            //Als eerst wordt er gekeken of een gebruiker is ingelogd. Mocht dit niet het geval zijn wordt het terug gebracht 
+            //naar het contentoverzicht
             if (Session["Gebruiker"] !=null)
             {
                 Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
@@ -35,6 +36,8 @@ namespace KillerApp.Controllers
 
         public ActionResult Details(int berichtnr)
         {
+            //Het juiste bericht wordt gekozen aan de hand van de gebruiker en de berichtnr
+            //Als de gebruiker niet is ingelogd is het dus ook niet mogelijk om naar het bericht te gaan met alleen het berichtnr(extra beveiliging)
             Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
             List<Bericht> berichten = berichtRepository.Berichten(gebruiker);
             Bericht msg = berichten.Find(bericht => bericht.Berichtnr == berichtnr);
@@ -64,7 +67,7 @@ namespace KillerApp.Controllers
             string tekst = form["Tekst"];
             Bericht bericht = new Bericht(verzender, ontvanger, titel, tekst);
             berichtRepository.SendBericht(bericht);
-            return View();
+            return RedirectToAction("Inbox");
         }
     }
 }

@@ -22,8 +22,9 @@ namespace KillerApp.Models
         public Abonnement Abonnement { get; set; }
         public List<Gebruiker> Volgers { get; set; }
         public bool Admin { get; set; }
+        public int Aantal { get; set; }
 
-        public Gebruiker(int gebruikernr, string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
+        public Gebruiker(int gebruikernr, string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord, int aantal)
         {
             this.Gebruikernr = gebruikernr;
             if (abonnement != "null")
@@ -47,6 +48,7 @@ namespace KillerApp.Models
             {
                 Admin = true;
             }
+            Aantal = aantal;
         }
         public Gebruiker(string abonnement, string naam, string gebruikersnaam, Geslacht geslacht, string email, string wachtwoord)
         {

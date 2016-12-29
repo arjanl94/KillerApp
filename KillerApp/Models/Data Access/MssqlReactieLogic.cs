@@ -63,7 +63,6 @@ namespace KillerApp.Models.Data_Access
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
             {
-                List<Reactie> reacties = new List<Reactie>();
 
                 if (conn.State != ConnectionState.Open)
                 {
@@ -95,6 +94,7 @@ namespace KillerApp.Models.Data_Access
             }
         }
 
+        //Een reactie wordt geschreven door een gebruiker. Vandaar dat hiervoor een methode is toegevoegd.
         public Gebruiker SelectGebruiker(int gebruikernr)
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
@@ -133,7 +133,8 @@ namespace KillerApp.Models.Data_Access
                             Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                             string email = reader.GetString(5);
                             string wachtwoord = reader.GetString(6);
-                            return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
+                            int aantal = reader.GetInt32(7);
+                            return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord, aantal);
                         }
                         catch (Exception ex)
                         {

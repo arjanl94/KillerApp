@@ -31,6 +31,7 @@ namespace KillerApp.Models.Data_Access
                     {
                         try
                         {
+                            //Tabellen worden aan elkaar gekoppeld om zo de juiste gegevens uit de tabellen te kunnen halen om de objecten aan te kunnen maken.
                             cmd.CommandText =
                                 "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, " +
                                 "m.Naam, m.Beschrijving, m.Duur, m.kHz, c.Videonr, c.Muzieknr, c.Contentnr FROM content c left join video v ON c.Videonr = v.Videonr left join muziek m ON c.Muzieknr = m.Muzieknr";
@@ -43,6 +44,8 @@ namespace KillerApp.Models.Data_Access
                                 int uploadernr = reader.GetInt32(1);
                                 int nr = reader.GetInt32(16);
                                 Gebruiker uploader = SelectUploader(uploadernr);
+                                //Als de derde kolom niet null is dan betekent het dat het een video gaat. Daarom is er een if statement toegevoegd
+                                //Dat de juiste gegevens ophaalt mocht er een video toegevoegd worden.
                                 if (!reader.IsDBNull(2))
                                 {
                                     string naam = reader.GetString(6);
@@ -56,6 +59,8 @@ namespace KillerApp.Models.Data_Access
                                     int videonr = reader.GetInt32(14);
                                     Content.Add(new Video(nr, naam, beschrijving, duur, genre, uploader, resolutie, videonr));
                                 }
+                                //Kijkt of de vierde kolom niet leeg is. 
+                                //Als dit het geval is betreft het een muziek bestand en wordt er een nieuw Muziek object aangemaakt.
                                 else if (!reader.IsDBNull(3))
                                 {
                                     string naam = reader.GetString(10);
@@ -248,6 +253,7 @@ namespace KillerApp.Models.Data_Access
                     {
                         try
                         {
+                            //Een procedure is toegevoegd aan de database waarbij zowel de video als content invoer verwijdert wordt.
                             cmd.CommandText = "EXECUTE RemoveVideoContent @videonr";
                             cmd.Connection = conn;
 
@@ -291,6 +297,8 @@ namespace KillerApp.Models.Data_Access
             }
         }
 
+        //Bij het aanmaken van een video of muziek object is er een uploader nodig. Vandaar dat dit een aparte methode is geworden 
+        //Waarin de juiste gebruiker wordt opgezocht aan de hand van de gebruikernr dat aanwezig is bij de content in de database.
         public Gebruiker SelectUploader(int gebruikernr)
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
@@ -329,7 +337,8 @@ namespace KillerApp.Models.Data_Access
                             Geslacht geslacht = (Geslacht)Enum.Parse(typeof(Geslacht), reader.GetString(4));
                             string email = reader.GetString(5);
                             string wachtwoord = reader.GetString(6);
-                            return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord);
+                            int aantal = reader.GetInt32(7);
+                            return new Gebruiker(gebrnr, abonnement, naam, gebruikersnaam, geslacht, email, wachtwoord, aantal);
                         }
                         catch (Exception ex)
                         {
@@ -390,7 +399,7 @@ namespace KillerApp.Models.Data_Access
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception(ex.Message);
+                            return null;
                         }
                         finally
                         {
