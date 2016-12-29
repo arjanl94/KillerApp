@@ -53,6 +53,7 @@ namespace KillerApp.Controllers
         [HttpGet]
         public ActionResult NieuwBericht()
         {
+            //Een model is aangemaakt waarin een Bericht en gebruiker gebruikt kan worden in de view
             BerichtGebruikerView berichtGebruiker = new BerichtGebruikerView();
             return View(berichtGebruiker);
         }

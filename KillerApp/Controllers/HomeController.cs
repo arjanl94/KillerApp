@@ -8,6 +8,7 @@ namespace KillerApp.Controllers
 {
     public class HomeController : Controller
     {
+        //Deze Controller wordt niet gebruikt
         public ActionResult Index()
         {
             return View();

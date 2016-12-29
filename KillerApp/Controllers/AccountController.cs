@@ -12,6 +12,8 @@ using KillerApp.Models;
 
 namespace KillerApp.Controllers
 {
+    //Deze Controller wordt niet gebruikt.
+    //Het inloggen wordt gedaan via eigen gemaakte controller 'UserController'
     [Authorize]
     public class AccountController : Controller
     {

@@ -10,6 +10,7 @@ using KillerApp.Models;
 
 namespace KillerApp.Controllers
 {
+    //Deze Controller wordt niet gebruikt
     [Authorize]
     public class ManageController : Controller
     {

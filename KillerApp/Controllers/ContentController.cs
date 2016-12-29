@@ -16,6 +16,7 @@ namespace KillerApp.Controllers
 
         public ActionResult All()
         {
+            //Haalt de lijst met alle content op
             List<Content> content = contentRepository.ListContent();
             return View(content);
         }
@@ -30,6 +31,7 @@ namespace KillerApp.Controllers
         [HandleError]
         public ActionResult UploadedContent()
         {
+            //Haalt de gebruiker uit de Session om vervolgens te gebruiken om de lijst met eigen content te tonen
             Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
 
             List<Content> gebruikerscontent = contentRepository.ListGebruikerContent(gebruiker);
@@ -46,6 +48,7 @@ namespace KillerApp.Controllers
         [HttpPost]
         public ActionResult Upload(FormCollection form)
         {
+            //Alle gegevens worden opgehaald uit de form om vervolgens een video aan de database te kunnen toevoegen
             Gebruiker uploader = Session["Gebruiker"] as Gebruiker;
             string naam = form["Naam"];
             string beschrijving = form["Beschrijving"];
@@ -79,6 +82,8 @@ namespace KillerApp.Controllers
 
         public ActionResult VerwijderContent(int contentnr)
         {
+            //Verwijdert de content uit de database aan de hand van de contentnr dat aan de Action wordt meegegeven. De gebruiker wordt vervolgens
+            //Terug gebracht naar zijn/haar lijst met geüploade content
             contentRepository.RemoveVideo(contentnr);
             return RedirectToAction("UploadedContent");
         }
