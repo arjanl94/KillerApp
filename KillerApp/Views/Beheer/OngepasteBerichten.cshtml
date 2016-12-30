@@ -1,0 +1,31 @@
+﻿@model List<KillerApp.Models.Bericht>
+@{
+    ViewBag.Title = "OngepasteBerichten";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ongepaste Berichten</h2>
+
+@foreach (var item in Model)
+{
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @if (item.Verzender.Gebruikersnaam == "null")
+                {
+                    @Html.DisplayName(item.Verzender.Naam)
+                }
+                else
+                {
+                    @Html.DisplayName(item.Verzender.Gebruikersnaam)
+                }
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => item.Tekst)
+            </dd>
+        </dl>
+    </div>
+
+}

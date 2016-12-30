@@ -183,5 +183,52 @@ namespace KillerApp.Models.Data_Access
                 }
             }
         }
+
+        //Haalt de lijst van ongepaste berichten voor een gebruiker uit de database om in de beheeroverzicht te tonen.
+        public List<Bericht> OngepasteBerichten(int gebruikernr)
+        {
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                List<Bericht> berichten = new List<Bericht>();
+
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "SELECT * FROM Bericht WHERE Verzender = @verzender AND Tekst Like '%' + '*' + '%'";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@verzender", gebruikernr);
+
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                int berichtnr = reader.GetInt32(0);
+                                Gebruiker verzender = SelectGebruiker(reader.GetInt32(1));
+                                Gebruiker ontvanger = SelectGebruiker(reader.GetInt32(2));
+                                string titel = reader.GetString(3);
+                                string tekst = reader.GetString(4);
+
+                                berichten.Add(new Bericht(berichtnr, verzender, ontvanger, titel, tekst));
+                            }
+                            return berichten;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

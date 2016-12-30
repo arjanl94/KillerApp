@@ -106,6 +106,18 @@ namespace KillerApp.Controllers
             return View(video);
         }
 
+        [HttpGet]
+        public ActionResult View_m(int contentnr)
+        {
+            //De reacties worden opgehaald aan de hand van de contentnr, de lijst met reacties wordt vervolgens omgedraaid zodat 
+            //het nieuwste bericht bovenaan staat.
+            List<Reactie> reacties = reactieRepository.ListContentReacties(contentnr);
+            reacties.Reverse();
+            Muziek muziek = contentRepository.SelectMuziek(contentnr);
+            muziek.AddReacties(reacties);
+            return View(muziek);
+        }
+
         [HttpPost]
         public ActionResult View(FormCollection form)
         {
@@ -123,6 +135,25 @@ namespace KillerApp.Controllers
                 RedirectToAction("All", "Content");
             }
             
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [HttpPost]
+        public ActionResult View_m(FormCollection form)
+        {
+            Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+            int contentnr = Convert.ToInt32(form["Nr"]);
+            string tekst = form["Reactie"];
+            Reactie reactie = new Reactie(gebruiker, tekst, contentnr);
+            try
+            {
+                reactieRepository.AddReactie(reactie);
+            }
+            catch
+            {
+                RedirectToAction("All", "Content");
+            }
+
             return Redirect(Request.UrlReferrer.ToString());
         }
 

@@ -29,7 +29,14 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Bekijk", "View", new { contentnr = item.Nr })
+                @if (item.Video == true)
+                {
+                    @Html.ActionLink("Bekijk", "View", new {contentnr = item.Nr})
+                }
+                else
+                {
+                    @Html.ActionLink("Bekijk", "View_m", new {contentnr = item.Nr})
+                }
             </td>
             <td>
                 @Html.Raw(item.Naam)

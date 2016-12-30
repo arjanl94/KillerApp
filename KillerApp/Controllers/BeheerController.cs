@@ -14,6 +14,7 @@ namespace KillerApp.Controllers
         private AbonnementRepository abonnementRepository = new AbonnementRepository(new MssqlAbonnementLogic());
         private ScheldwoordRepository scheldwoordRepository = new ScheldwoordRepository(new MssqlScheldwoordLogic());
         private BerichtRepository berichtRepository = new BerichtRepository(new MssqlBerichtLogic());
+        private int ongepastaantal = 2;
         // GET: Beheer
         
         public ActionResult Gebruikers()
@@ -94,6 +95,7 @@ namespace KillerApp.Controllers
             if (Session["Gebruiker"] != null)
             {
                 Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
+                //Alleen als de gebruiker een admin is wordt de lijst met berichten getoond
                 if (gebruiker.Admin == true)
                 {
                     List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
@@ -213,7 +215,7 @@ namespace KillerApp.Controllers
             List<Gebruiker> GebruikersAantal = new List<Gebruiker>();
             foreach (var item in Gebruikers)
             {
-                if (item.Aantal >= 2)
+                if (item.Aantal >= ongepastaantal)
                 {
                     GebruikersAantal.Add(item);
                 }
@@ -228,7 +230,8 @@ namespace KillerApp.Controllers
             List<Gebruiker> Gebruikers = gebruikerRepository.ListGebruikers();
             foreach (var item in Gebruikers)
             {
-                if (item.Aantal >= 2)
+                //Kijkt of het aantal berichten meer of gelijk aan 2 is.
+                if (item.Aantal >= ongepastaantal)
                 {
                     berichtRepository.SendBericht(new Bericht(gebruiker, item, "Taalgebruik", "U heeft te vaak ongepast taalgebruik gebruikt. Als dit nogmaals gebeurt zal uw account verwijdert worden"));
                 }
@@ -236,9 +239,21 @@ namespace KillerApp.Controllers
             return RedirectToAction("Scheldwoorden");
         }
 
-        public ActionResult Details()
+        public ActionResult OngepasteBerichten(int gebruikernr)
         {
-            return View();
+            //Haalt als eerst de volledige lijst ongepaste berichten op om vervolgens de list te reversen zodat de nieuweste eerst komt
+            //Vervolgens wordt er per bericht (getoond met huidig) de bericht toegevoegd aan de nieuwe lijst die getoond gaat worden in de View
+            List<Bericht> berichten = berichtRepository.OngepasteBerichten(gebruikernr);
+            berichten.Reverse();
+            List<Bericht> LaatsteBerichten = new List<Bericht>();
+            int huidig = 1;
+            int aantalberichten = 3;
+            while (huidig < aantalberichten)
+            {
+                LaatsteBerichten.Add(berichten[huidig]);
+                huidig += 1;
+            }
+            return View(LaatsteBerichten);
         }
     }
 }

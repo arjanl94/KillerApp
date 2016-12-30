@@ -11,5 +11,6 @@ namespace KillerApp.Models.Data_Access
         void SendBericht(Bericht bericht);
         Gebruiker SelectGebruiker(int gebruikernr);
         void RemoveBericht(int berichtnr);
+        List<Bericht> OngepasteBerichten(int gebruikernr);
     }
 }

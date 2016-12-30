@@ -14,7 +14,7 @@ namespace KillerApp.Models.Data_Access
         void RemoveVideo(int videonr);
         void RemoveMuziek(int muzieknr);
         Gebruiker SelectUploader(int gebruikernr);
-        Video SelectVideo(int videonr);
-        Muziek SelectMuziek(int muzieknr);
+        Video SelectVideo(int contentnr);
+        Muziek SelectMuziek(int contentnr);
     }
 }

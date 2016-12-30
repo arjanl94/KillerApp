@@ -19,6 +19,7 @@
 <br><br>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             Naam
         </th>
@@ -36,6 +37,7 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>@Html.ActionLink("Laatste 2 berichten", "OngepasteBerichten", new { gebruikernr = item.Gebruikernr})</td>
             <td>
                 @Html.Encode(item.Naam)
             </td>

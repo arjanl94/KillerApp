@@ -49,14 +49,14 @@ namespace KillerApp.Models.Data_Access
             return _contentLogic.SelectUploader(gebruikernr);
         }
 
-        public Video SelectVideo(int videonr)
+        public Video SelectVideo(int contentnr)
         {
-            return _contentLogic.SelectVideo(videonr);
+            return _contentLogic.SelectVideo(contentnr);
         }
 
-        public Muziek SelectMuziek(int muzieknr)
+        public Muziek SelectMuziek(int contentnr)
         {
-            return _contentLogic.SelectMuziek(muzieknr);
+            return _contentLogic.SelectMuziek(contentnr);
         }
     }
 }

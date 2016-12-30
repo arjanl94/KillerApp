@@ -33,5 +33,10 @@ namespace KillerApp.Models.Data_Access
         {
             _berichtLogic.RemoveBericht(berichtnr);
         }
+
+        public List<Bericht> OngepasteBerichten(int gebruikernr)
+        {
+            return _berichtLogic.OngepasteBerichten(gebruikernr);
+        }
     }
 }

@@ -318,6 +318,8 @@
     <Content Include="Views\Content\View.cshtml" />
     <Content Include="Views\Content\UploadMuziek.cshtml" />
     <Content Include="Views\Beheer\GebruikersTaalgebruik.cshtml" />
+    <Content Include="Views\Content\View_m.cshtml" />
+    <Content Include="Views\Beheer\OngepasteBerichten.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
