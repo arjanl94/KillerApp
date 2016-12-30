@@ -58,5 +58,10 @@ namespace KillerApp.Models.Data_Access
         {
             return _contentLogic.SelectMuziek(contentnr);
         }
+
+        public void MeldingUpload(int gebruikernr, string titel)
+        {
+            _contentLogic.MeldingUpload(gebruikernr, titel);
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace KillerApp.Controllers
                     }
                     catch (Exception)
                     {
-                        throw new HttpException("Kan content niet laden");
+                        return new HttpNotFoundResult("De pagina kon helaas niet geladen worden");
                     }
                 }
                 //Als de gebruiker geen admin is wordt de pagina van content getoond.
@@ -112,7 +112,7 @@ namespace KillerApp.Controllers
                     }
                     catch (Exception)
                     {
-                        throw new HttpException("Kan content niet laden");
+                        return new HttpNotFoundResult("De pagina kon helaas niet geladen worden");
                     }
                 }
                 else
@@ -193,7 +193,7 @@ namespace KillerApp.Controllers
                     catch (Exception)
                     {
 
-                        throw new HttpException("Kan content niet laden");
+                        return new HttpNotFoundResult("De pagina kon helaas niet geladen worden");
                     }
                 }
                 else

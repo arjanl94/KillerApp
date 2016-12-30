@@ -475,5 +475,33 @@ namespace KillerApp.Models.Data_Access
             }
             return null;
         }
+
+        public void MeldingUpload(int gebruikernr, string titel)
+        {
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText = "EXECUTE MeldingUpload @gebruikernr, @titel";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@gebruikernr", gebruikernr);
+                            cmd.Parameters.AddWithValue("@titel", titel);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

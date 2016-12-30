@@ -24,9 +24,9 @@ namespace KillerApp.Controllers
                 content.Reverse();
                 return View(content);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new HttpException(ex.Message);
+                return new HttpNotFoundResult("De pagina kon helaas niet geladen worden");
             }
         }
 
@@ -40,7 +40,7 @@ namespace KillerApp.Controllers
             }
             catch (Exception ex)
             {
-                throw new HttpException(ex.Message);
+                return new HttpNotFoundResult("De pagina kon helaas niet geladen worden");
             }
         }
 
@@ -73,6 +73,7 @@ namespace KillerApp.Controllers
             string resolutie = form["Resolutie"];
             Video video = new Video(naam, beschrijving, duur, genre, uploader, resolutie);
             contentRepository.AddVideo(video);
+            contentRepository.MeldingUpload(uploader.Gebruikernr, naam);
             return RedirectToAction("UploadedContent");
         }
 
@@ -93,6 +94,7 @@ namespace KillerApp.Controllers
             int khz = Convert.ToInt32(form["kHz"]);
             Muziek muziek = new Muziek(naam, beschrijving, duur, genre, uploader, khz);
             contentRepository.AddMuziek(muziek);
+            contentRepository.MeldingUpload(uploader.Gebruikernr, naam);
             return RedirectToAction("UploadedContent");
         }
 

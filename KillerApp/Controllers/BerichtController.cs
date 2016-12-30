@@ -30,7 +30,7 @@ namespace KillerApp.Controllers
             }
             else
             {
-                throw new HttpException("Kan inbox niet laden");
+                return new HttpNotFoundResult("De pagina kon helaas niet geladen worden");
             }
         }
 
