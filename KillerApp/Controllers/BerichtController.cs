@@ -30,7 +30,7 @@ namespace KillerApp.Controllers
             }
             else
             {
-                return RedirectToAction("All", "Content");
+                throw new HttpException("Kan inbox niet laden");
             }
         }
 

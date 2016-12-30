@@ -17,15 +17,31 @@ namespace KillerApp.Controllers
         public ActionResult All()
         {
             //Haalt de lijst met alle content op
-            List<Content> content = contentRepository.ListContent();
-            return View(content);
+            try
+            {
+                List<Content> content = contentRepository.ListContent();
+                //Draait de volgorde van de content zodat de nieuwest bovenaan staat.
+                content.Reverse();
+                return View(content);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpException(ex.Message);
+            }
         }
 
         public ActionResult Videos()
         {
-            List<Content> content = contentRepository.ListContent();
-            List<Video> videos = content.Cast<Video>().ToList();
-            return View(videos);
+            try
+            {
+                List<Content> content = contentRepository.ListContent();
+                List<Video> videos = content.Cast<Video>().ToList();
+                return View(videos);
+            }
+            catch (Exception ex)
+            {
+                throw new HttpException(ex.Message);
+            }
         }
 
         [HandleError]

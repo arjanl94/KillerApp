@@ -16,7 +16,7 @@ namespace KillerApp.Controllers
         private BerichtRepository berichtRepository = new BerichtRepository(new MssqlBerichtLogic());
         private int ongepastaantal = 2;
         // GET: Beheer
-        
+
         public ActionResult Gebruikers()
         {
             //Kijkt of er een gebruiker is ingelogd
@@ -26,8 +26,15 @@ namespace KillerApp.Controllers
                 //Kijkt of de gebruiker adminrechten heeft. Als dit zo is wordt de lijst met gebruikers getoond.
                 if (gebruiker.Admin == true)
                 {
-                    List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
-                    return View(gebruikers);
+                    try
+                    {
+                        List<Gebruiker> gebruikers = gebruikerRepository.ListGebruikers();
+                        return View(gebruikers);
+                    }
+                    catch (Exception)
+                    {
+                        throw new HttpException("Kan content niet laden");
+                    }
                 }
                 //Als de gebruiker geen admin is wordt de pagina van content getoond.
                 else
@@ -98,8 +105,15 @@ namespace KillerApp.Controllers
                 //Alleen als de gebruiker een admin is wordt de lijst met berichten getoond
                 if (gebruiker.Admin == true)
                 {
-                    List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
-                    return View(abonnementen);
+                    try
+                    {
+                        List<Abonnement> abonnementen = abonnementRepository.ListAbonnementen();
+                        return View(abonnementen);
+                    }
+                    catch (Exception)
+                    {
+                        throw new HttpException("Kan content niet laden");
+                    }
                 }
                 else
                 {
@@ -171,8 +185,16 @@ namespace KillerApp.Controllers
                 Gebruiker gebruiker = Session["Gebruiker"] as Gebruiker;
                 if (gebruiker.Admin == true)
                 {
-                    List<Scheldwoord> scheldwoorden = scheldwoordRepository.ListScheldwoorden();
-                    return View(scheldwoorden);
+                    try
+                    {
+                        List<Scheldwoord> scheldwoorden = scheldwoordRepository.ListScheldwoorden();
+                        return View(scheldwoorden);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw new HttpException("Kan content niet laden");
+                    }
                 }
                 else
                 {

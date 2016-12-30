@@ -27,11 +27,21 @@ namespace KillerApp.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void UserContent()
+        {
+            ContentController controller = new ContentController();
+            ViewResult result = controller.UploadedContent() as ViewResult;
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
         public void AddGebruiker()
         {
             BeheerController controller = new BeheerController();
             ViewResult result = controller.AddGebruiker() as ViewResult;
-         ///   Assert.IsNotNull(result);
+            ///   Assert.IsNotNull(result);
             Assert.AreEqual(null, result.Model);
         }
 
@@ -67,5 +77,38 @@ namespace KillerApp.Tests
             ViewResult result = controller.View(1) as ViewResult;
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void Upload()
+        {
+            ContentController controller = new ContentController();
+            ViewResult result = controller.Upload() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
     }
+
+    [TestClass]
+    public class BerichtTests
+    {
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void Inbox()
+        {
+            BerichtController controller = new BerichtController();
+            ViewResult result = controller.Inbox() as ViewResult;
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void DetailsBericht()
+        {
+            BerichtController controller = new BerichtController();
+            ViewResult result = controller.Details(1) as ViewResult;
+            Assert.IsNotNull(result);
+    }
+
+
+}
 }
