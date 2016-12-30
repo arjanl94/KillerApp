@@ -198,7 +198,7 @@ namespace KillerApp.Models.Data_Access
                             }
                             cmd.Parameters.AddWithValue("@genretitel", video.Genre.ToString());
                             cmd.Parameters.AddWithValue("@uploader", video.Uploader.Gebruikernr);
-                            
+
                             cmd.ExecuteNonQuery();
                         }
                         catch (Exception ex)
@@ -354,7 +354,8 @@ namespace KillerApp.Models.Data_Access
             return null;
         }
 
-        public Video SelectVideo(int videonr)
+        //Selecteer de juiste video wat gebruikt gaat worden om de content van de video te laten zien met de bijbehorende comments(indien aanwezig)
+        public Video SelectVideo(int contentnr)
         {
             using (SqlConnection conn = new SqlConnection(Connectie))
             {
@@ -367,13 +368,16 @@ namespace KillerApp.Models.Data_Access
                         try
                         {
                             cmd.CommandText =
-                                "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, " +
-                                "m.Naam, m.Beschrijving, m.Duur, m.kHz, c.Videonr, c.Muzieknr, c.Contentnr FROM content c left join video v ON c.Videonr = v.Videonr left join muziek m ON c.Muzieknr = m.Muzieknr";
+                                "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, m.Naam, " +
+                                "m.Beschrijving, m.Duur, m.kHz, c.Videonr, c.Muzieknr, c.Contentnr FROM content c left join video v ON c.Videonr = v.Videonr " +
+                                "left join muziek m ON c.Muzieknr = m.Muzieknr WHERE c.Contentnr = @nr";
                             cmd.Connection = conn;
 
-                            SqlDataReader reader = cmd.ExecuteReader();
-                            while (reader.Read())
+                            cmd.Parameters.AddWithValue("@nr", contentnr);
+
+                            using (SqlDataReader reader = cmd.ExecuteReader())
                             {
+                                reader.Read();
                                 Genre genre = (Genre)Enum.Parse(typeof(Genre), reader.GetString(0));
                                 int uploadernr = reader.GetInt32(1);
                                 int nr = reader.GetInt32(16);
@@ -411,9 +415,65 @@ namespace KillerApp.Models.Data_Access
             return null;
         }
 
-        public Muziek SelectMuziek(int muzieknr)
+        //Selecteer de juiste muziek wat gebruikt wordt om de content te laten zien met bijbehorende comments (indien aanwezig)
+        public Muziek SelectMuziek(int contentnr)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Connectie))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        try
+                        {
+                            cmd.CommandText =
+                                "SELECT c.genretitel, c.uploader, c.Videonr, c.Muzieknr, c.likes, c.views, v.naam, v.beschrijving, v.duur, v.Resolutie, m.Naam, " +
+                                "m.Beschrijving, m.Duur, m.kHz, c.Videonr, c.Muzieknr, c.Contentnr FROM content c left join video v ON c.Videonr = v.Videonr " +
+                                "left join muziek m ON c.Muzieknr = m.Muzieknr WHERE c.Contentnr = @nr";
+                            cmd.Connection = conn;
+
+                            cmd.Parameters.AddWithValue("@nr", contentnr);
+
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                reader.Read();
+                                Genre genre = (Genre)Enum.Parse(typeof(Genre), reader.GetString(0));
+                                int uploadernr = reader.GetInt32(1);
+                                int nr = reader.GetInt32(16);
+                                Gebruiker uploader = SelectUploader(uploadernr);
+                                if (!reader.IsDBNull(2))
+                                {
+                                    return null;
+                                }
+                                else if (!reader.IsDBNull(3))
+                                {
+                                    string naam = reader.GetString(10);
+                                    string beschrijving = "Leeg";
+                                    if (!reader.IsDBNull(11))
+                                    {
+                                        beschrijving = reader.GetString(11);
+                                    }
+                                    TimeSpan duur = reader.GetTimeSpan(12);
+                                    int khz = reader.GetInt32(13);
+                                    int muzieknr = reader.GetInt32(15);
+                                    return new Muziek(nr, naam, beschrijving, duur, genre, uploader, khz, muzieknr);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            return null;
+                        }
+                        finally
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }
